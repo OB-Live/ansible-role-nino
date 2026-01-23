@@ -1,0 +1,17 @@
+galaxy_info:
+  author: Olivier Bertrand
+  description: narrow input narrow output
+  license: MIT
+  min_ansible_version: 2.1
+
+  galaxy_tags:
+    - install
+    - etl
+    - lino
+    - pimo
+    # NOTE: A tag is limited to a single word comprised of alphanumeric characters.
+    #       Maximum 20 tags per role.
+
+dependencies: []
+  # List your role dependencies here, one per line. Be sure to remove the '[]' above,
+  # if you add dependencies to this list.
