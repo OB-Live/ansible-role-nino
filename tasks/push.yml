@@ -1,0 +1,5 @@
+- name: Declare Push
+  shell: "nohup cat {{ pipeIn }} > pets-{{ pipeOut }} 2>&1 &"
+  async: 10
+  poll: 0
+  register: listener_task

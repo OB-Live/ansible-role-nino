@@ -1,0 +1,66 @@
+---
+- name: FIFO data transfer demonstration
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    fifo_pets: "pets.jsonl"
+    fifo_owners: "owners.jsonl"
+    fifo_pets_masking: "pets-masking.jsonl"
+    source_db: "source.md"
+    target_db: "target.md"
+
+
+  tasks:
+    - name: Clear the named pipes
+      command: rm {{ item }}
+      loop:
+        - "{{ fifo_pets_masking }}"
+        - "{{ fifo_pets }}"
+        - "{{ fifo_owners }}"
+      ignore_errors: true
+
+    - name: Create the named pipes
+      command: mkfifo {{ item }}
+      args:
+        creates: "{{ item }}"
+      loop:
+        - "{{ fifo_pets_masking }}"
+        - "{{ fifo_pets }}"
+        - "{{ fifo_owners }}"
+
+    - name: Declare Push pets
+      shell: "nohup cat {{ fifo_pets_masking }} > pets-{{ target_db }} 2>&1 &"
+      async: 10
+      poll: 0
+      register: listener_task
+
+    - name: Declare Mask pets
+      shell: "nohup cat {{ fifo_pets }} | grep '#' > {{ fifo_pets_masking }} 2>&1 &"
+      async: 10
+      poll: 0
+      register: listener_task
+
+    - name: Declare Push owners
+      shell: "nohup cat {{ fifo_owners }} > owners-{{ target_db }} 2>&1 &"
+      async: 10
+      poll: 0
+      register: listener_task
+
+    - name: Wait for 3 seconds
+      pause:
+        seconds: 3
+        prompt: ""
+
+    - name: Pull Pets
+      shell: "cat README.md > {{ fifo_pets }}"
+      ignore_errors: true
+
+    - name: Pull Owners
+      shell: "cat README.md > {{ fifo_owners }}"
+      ignore_errors: true
+
+
+    - name: Verify the results
+      debug:
+        msg: "Content of README.md has been sent through pipes to target db"

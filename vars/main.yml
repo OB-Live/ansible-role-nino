@@ -1,2 +1,4 @@
 ---
 # vars file for nino
+install_dir: "/usr/bin"
+lino_version: v3.6.1

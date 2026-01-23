@@ -3,7 +3,11 @@
   hosts: localhost
   connection: local
   gather_facts: false
+  become: true
   vars:
+    install_dir: "/usr/bin"
+    lino_version: "3.6.1"
+    pimo_version: "1.31.3"
     fifo_pets: "pets.jsonl"
     fifo_owners: "owners.jsonl"
     fifo_pets_masking: "pets-masking.jsonl"
@@ -12,54 +16,13 @@
 
 
   tasks:
-    - name: Clear the named pipes
-      command: rm {{ item }}
-      loop:
-        - "{{ fifo_pets_masking }}"
-        - "{{ fifo_pets }}"
-        - "{{ fifo_owners }}"
-      ignore_errors: true
+    - name: install
+      include_tasks: tasks/install.yml
 
-    - name: Create the named pipes
-      command: mkfifo {{ item }}
-      args:
-        creates: "{{ item }}"
-      loop:
-        - "{{ fifo_pets_masking }}"
-        - "{{ fifo_pets }}"
-        - "{{ fifo_owners }}"
-
-    - name: Declare Push pets
-      shell: "nohup cat {{ fifo_pets_masking }} > pets-{{ target_db }} 2>&1 &"
-      async: 10
-      poll: 0
-      register: listener_task
-
-    - name: Declare Mask pets
-      shell: "nohup cat {{ fifo_pets }} | grep '#' > {{ fifo_pets_masking }} 2>&1 &"
-      async: 10
-      poll: 0
-      register: listener_task
-
-    - name: Declare Push owners
-      shell: "nohup cat {{ fifo_owners }} > owners-{{ target_db }} 2>&1 &"
-      async: 10
-      poll: 0
-      register: listener_task
-
-    - name: Wait for 3 seconds
-      pause:
-        seconds: 3
-        prompt: ""
-
-    - name: Pull Pets
-      shell: "cat README.md > {{ fifo_pets }}"
-      ignore_errors: true
-
-    - name: Pull Owners
-      shell: "cat README.md > {{ fifo_owners }}"
-      ignore_errors: true
-
+    - name: pull pets
+      include_tasks: tasks/pull.yml
+      vars:
+        pipeOut: "pets.jsonl"
 
     - name: Verify the results
       debug:

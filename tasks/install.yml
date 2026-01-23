@@ -1,0 +1,53 @@
+- name: Créer le répertoire d'installation
+  file:
+    path: "{{ install_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Télécharger le binaire LINO
+  ansible.builtin.get_url:
+    url: "https://github.com/CGI-FR/LINO/releases/download/v{{ lino_version }}/LINO_{{ lino_version }}_linux_amd64.tar.gz"
+    dest: "/tmp/lino_{{ lino_version }}.tar.gz"
+    mode: "0644"
+
+- name: Extraire le binaire LINO
+  ansible.builtin.unarchive:
+    src: "/tmp/lino_{{ lino_version }}.tar.gz"
+    dest: "{{ install_dir }}"
+    mode: "0755"
+    remote_src: yes
+
+- name: Vérifier la version de LINO
+  ansible.builtin.command: "{{ install_dir }}/lino --version"
+  register: lino_version_out
+  changed_when: false
+
+- name: Télécharger le binaire PIMO
+  ansible.builtin.get_url:
+    url: "https://github.com/CGI-FR/PIMO/releases/download/v{{ pimo_version }}/PIMO_{{ pimo_version }}_linux_amd64.tar.gz"
+    dest: "/tmp/pimo_{{ pimo_version }}.tar.gz"
+    mode: "0644"
+
+- name: Extraire le binaire PIMO
+  ansible.builtin.unarchive:
+    src: "/tmp/pimo_{{ pimo_version }}.tar.gz"
+    dest: "{{ install_dir }}"
+    remote_src: yes
+#
+#- name: Installer le binaire PIMO
+#  ansible.builtin.copy:
+#    src: "/tmp/pimo_extract/pimo"
+#    dest: "{{ install_dir }}/pimo"
+#    mode: "0755"
+
+- name: Vérifier la version de PIMO
+  ansible.builtin.command: "{{ install_dir }}/pimo --version"
+  register: pimo_version_out
+  changed_when: false
+
+- name: Afficher les versions installées
+  ansible.builtin.debug:
+    msg: |
+      LINO version: {{ lino_version_out.stdout }}
+      PIMO version: {{ pimo_version_out.stdout }}
+

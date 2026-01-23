@@ -1,2 +1,6 @@
 ---
 # tasks file for nino
+- name: Install
+  include_tasks:
+    - name: install
+
