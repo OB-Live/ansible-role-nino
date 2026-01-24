@@ -13,6 +13,8 @@
     fifo_pets: "/tmp/pets.jsonl"
     fifo_owners: "/tmp/owners.jsonl"
     fifo_pets_masking: "/tmp/pets-masking.jsonl"
+  environment:
+    PATH: "{{ ansible_env.PATH }}:/usr/lino"
 
   tasks:
     - include_role:

@@ -1,7 +1,6 @@
 ---
-- name: "LINO Pull : {{ idName }}"
+- name: "Execute LINO Pull : {{ idName }}"
   shell: |
-    export PATH="$PATH:/usr/lino"
     lino pull source -l 10 {{ descriptor }} > {{ pipeOut }}
   args:
     executable: /bin/bash

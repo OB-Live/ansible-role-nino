@@ -1,7 +1,6 @@
 ---
 - name: "PIMO Masking : {{ idName }}"
   shell: |
-    export PATH="$PATH:/usr/lino"
     pimo -c {{ masking }} < {{ data_in }} > {{data_out}}
   args:
     executable: /bin/bash

@@ -2,22 +2,19 @@
 - name: Clear dataconnctor.yaml  
   command: rm -f dataconnctor.yaml  
   ignore_errors: true
- 
 
 - name: "LINO Connect source : {{ source_db }}"
   shell: |
-    export PATH="$PATH:/usr/lino"
     lino dc add source {{ source_db }} 
     lino dc ping source 
     lino table extract source 
     lino relation extract source  
   args:
-    executable: /bin/bash
+    executable: /bin/bash -l
   register: connectsrc_result
 
 - name: "LINO Connect target : {{ target_db }}"
   shell: |
-    export PATH="$PATH:/usr/lino"
     lino dc add target {{ target_db }} 
     lino dc ping target 
   args:
@@ -25,9 +22,8 @@
   register: connecttgt_result
 
 - block:
-  - name: "extract metadata for {{ item }}"
+  - name: "Extract metadata for {{ item }}"
     shell: |
-      export PATH="$PATH:/usr/lino"
       lino id create {{ item }} -i {{ descriptor }}       
       lino id display-plan -i {{ descriptor }} 
     args:
@@ -40,13 +36,10 @@
       - 'owners'
       - 'pets'
 
-  - name:  "Log - Connect : {{ item }}"
+  - name:  "Log - Connecting and Extracting metadata"
     debug:
-      var: extract_result.stdout_lines
-    loop: 
-      - 'owners'
-      - 'pets'
-
-# - name: Pull
-#   shell: "cat README.md > {{ pipeOut }}"
-#   ignore_errors: true
+      msg: 
+        - {{ connectsrc_result }}
+        - {{ connecttgt_result }}
+        - {{ extract_result }}
+ 

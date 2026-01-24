@@ -1,7 +1,6 @@
 ---
-- name: "LINO Push : {{ idName }}"
+- name: "Declare LINO Push : {{ idName }}"
   shell: |
-    export PATH="$PATH:/usr/lino"
     # lino push target -v5 -i {{ descriptor }} < {{ pipeIn }}
     nohup lino push target cible -v5 -i {{ descriptor }} < {{ pipeIn }} 2>&1 &
     echo "pushed {{ idName }} <- {{ pipeIn }}"
@@ -17,7 +16,7 @@
 
 - name: "Log - Push : {{ idName }}"
   debug:
-    var: push_result.stdout_lines
+    var: push_result
 
 
 # - name: Declare Push
