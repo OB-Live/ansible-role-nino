@@ -8,6 +8,8 @@ Documentation
 
 https://cgi-fr.github.io/lino-doc/
 
+ansible-playbook ~/.ansible/roles/OB-Live.nino/petstore.yml -K
+
 Role Variables
 --------------
 

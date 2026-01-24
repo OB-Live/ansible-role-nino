@@ -1,11 +1,11 @@
 ---
-- name: LINO Petstore Example 
+- name: LINO Petstore Example
   hosts: localhost
   connection: local
   gather_facts: false
-  vars: 
-    #  Business case variables
-    workspace: "example/petstore" 
+  vars:
+    #  Business variables
+    workspace: "example/petstore"
     source_db: "postgresql://localhost:5432/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
     target_db: "postgresql://localhost:5433/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
 
@@ -22,9 +22,6 @@
     - include_role:
         name: OB-Live.nino
         tasks_from: connect
-      # vars:
-      #   source_db: "postgresql://localhost:5432/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
-      #   target_db: "postgresql://localhost:5433/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
 
     - include_role:
         name: OB-Live.nino
@@ -37,32 +34,33 @@
     # Owners
     - include_role:
         name: OB-Live.nino
-        tasks_from: pull
-      vars:
-        idName: "owners"
-        pipeOut: "owners.jsonl"
-
-    - include_role:
-        name: OB-Live.nino
         tasks_from: push
       vars:
         idName: "owners"
-        pipeIn: "owners.jsonl"
+        pipeIn: "{{ fifo_owners }}"
+
+    - include_role:
+        name: OB-Live.nino
+        tasks_from: pull
+      vars:
+        idName: "owners"
+        pipeOut: "{{ fifo_owners }}"
 
     # Pets
     - include_role:
         name: OB-Live.nino
-        tasks_from: pull
-      vars:
-        idName: "pets"
-        pipeOut: "pets.jsonl"
-
-    - include_role:
-        name: OB-Live.nino
         tasks_from: push
       vars:
         idName: "pets"
-        pipeIn: "pets.jsonl"
+        pipeIn: "{{ fifo_pets }}"
+
+    - include_role:
+        name: OB-Live.nino
+        tasks_from: pull
+      vars:
+        idName: "pets"
+        pipeOut: "{{ fifo_pets }}"
+
 
     - name: Verify the results
       debug:

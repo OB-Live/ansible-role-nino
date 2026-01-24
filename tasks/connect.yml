@@ -1,7 +1,8 @@
 ---
-- name: Clear dataconnctor.yaml {{ source_db }}
-  command: rm -f {{ source_db }}
+- name: Clear dataconnctor.yaml  
+  command: rm -f dataconnctor.yaml  
   ignore_errors: true
+ 
 
 - name: "LINO Connect source : {{ source_db }}"
   shell: |
@@ -36,15 +37,16 @@
       descriptor: "{{ workspace }}/{{ item }}-descriptor.yml"
       #data_out: "business/{{ idName }}_data.jsonl"
     loop: 
-    - 'owners'
-    - 'pets'
+      - 'owners'
+      - 'pets'
 
   - name:  "Log - Connect : {{ item }}"
     debug:
       var: extract_result.stdout_lines
     loop: 
-    - 'owners'
-    - 'pets'
+      - 'owners'
+      - 'pets'
+
 # - name: Pull
 #   shell: "cat README.md > {{ pipeOut }}"
 #   ignore_errors: true
