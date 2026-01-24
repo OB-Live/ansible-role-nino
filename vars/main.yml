@@ -1,6 +1,6 @@
 ---
 # vars file for nino
-lino_version: v3.6.1
+lino_version: "3.6.1"
 pimo_version: "1.31.3"
 sigo_version: "0.4.0"
 
@@ -11,8 +11,8 @@ tables: "{{workspace}}/tables.yml"
 relations: "{{workspace}}/relations.yml"
 
 # business case variables
-source_db: "postgresql://localhost:5432/jhpetclinic?sslmode=disable"
-target_db: "postgresql://localhost:5433/jhpetclinic?sslmode=disable"
+# source_db: "postgresql://localhost:5432/jhpetclinic?sslmode=disable"
+# target_db: "postgresql://localhost:5433/jhpetclinic?sslmode=disable"
 
 lino_components:
   - name: LINO

@@ -28,6 +28,13 @@
     state: directory
     mode: '0755'
 
+- name: Ensure {{workspace}} directory exists
+  become: false
+  ansible.builtin.file:
+    path: {{workspace}}
+    state: directory
+    mode: '0755'
+
 - block: 
   - name: Download LINO components to cache (idempotent)
     become: true

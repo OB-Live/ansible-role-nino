@@ -1,4 +1,8 @@
 ---
+- name: Clear dataconnctor.yaml {{ source_db }}
+  command: rm -f {{ source_db }}
+  ignore_errors: true
+
 - name: "LINO Connect source : {{ source_db }}"
   shell: |
     export PATH="$PATH:/usr/lino"

@@ -1,0 +1,20 @@
+version: "1"
+seed: 42
+masking:
+  - selector:
+      jsonpath: "departement"
+    mask:
+      fromCache: "cacheDepartement"
+
+  - selector:
+      jsonpath: "fume"
+    mask:
+      fromCache: "cacheFume"
+
+caches:
+  cacheDepartement:
+    unique: true
+    reverse: false
+  cacheFume:
+    unique: true
+    reverse: false
