@@ -17,13 +17,24 @@
     fifo_pets_masking: "/tmp/pets-masking.jsonl"
 
   tasks:
-    # - include_role:
-    #     name: OB-Live.nino
-    #     tasks_from: install
 
-    - include_role:
-        name: OB-Live.nino
-        tasks_from: connect
+    - name: Deploy example's stack with Docker Compose
+      community.docker.docker_compose_v2:
+        project_src: "{{ workspace }}"
+        files:
+          - docker-compose.yml  # You can stack multiple files
+        state: present
+        wait: true                   # Wait for containers to be healthy
+        build: never                 # Use 'always' if you want to force image builds
+      register: compose_output
+
+    - name: Debug compose status
+      debug:
+        var: compose_output.actions
+
+
+    # Check connections and initialize FIFOs
+    - include_role: { name: OB-Live.nino, tasks_from: connect }
 
     - include_role: { name: OB-Live.nino, tasks_from: fifos }
       loop:
@@ -31,41 +42,32 @@
         - "{{ fifo_pets }}"
         - "{{ fifo_owners }}"
 
+    # Business logic here
     # Owners
-    - include_role:
-        name: OB-Live.nino
-        tasks_from: push
+    - include_role: { name: OB-Live.nino, tasks_from: push } # declare push
       vars:
         idName: "owners"
         pipeIn: "{{ fifo_owners }}"
 
-    - include_role:
-        name: OB-Live.nino
-        tasks_from: pull
+    - include_role: { name: OB-Live.nino, tasks_from: pull } # then pull
       vars:
         idName: "owners"
         pipeOut: "{{ fifo_owners }}"
 
     # Pets
-    - include_role:
-        name: OB-Live.nino
-        tasks_from: push
+    - include_role: { name: OB-Live.nino, tasks_from: push }
       vars:
         idName: "pets"
         pipeIn: "{{ fifo_pets_masking }}"
 
-    - include_role:
-        name: OB-Live.nino
-        tasks_from: mask
+    - include_role: { name: OB-Live.nino, tasks_from: mask }
       vars:
         idName: "pets"
         pipeIn: "{{ fifo_pets }}"
         pipeOut: "{{ fifo_pets_masking }}"
-        masking: "{{ workspace }}/pets-masking.yml"
+        masking: "{{ workspace }}/target/pets-masking.yml"
 
-    - include_role:
-        name: OB-Live.nino
-        tasks_from: pull
+    - include_role: { name: OB-Live.nino, tasks_from: pull }
       vars:
         idName: "pets"
         pipeOut: "{{ fifo_pets }}"

@@ -30,7 +30,7 @@
       executable: /bin/bash
     register: extract_result
     vars:
-      descriptor: "{{ workspace }}/{{ item }}-descriptor.yml"
+      descriptor: "{{ workspace }}/source/{{ item }}-descriptor.yml"
       #data_out: "business/{{ idName }}_data.jsonl"
     loop: 
       - 'owners'

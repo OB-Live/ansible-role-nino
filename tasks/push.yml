@@ -1,14 +1,12 @@
 ---
 - name: "Declare LINO Push : {{ idName }}"
   shell: |
-    # lino push target -v5 -i {{ descriptor }} < {{ pipeIn }}
     nohup lino push target -v5 -i {{ descriptor }} < {{ pipeIn }} 2>&1 &
-    echo "pushed {{ idName }} <- {{ pipeIn }}"
   args:
     executable: /bin/bash
   register: push_result
   vars:
-    descriptor: "{{ workspace }}/{{ idName }}-descriptor.yml"
+    descriptor: "{{ workspace }}/target/{{ idName }}-descriptor.yml"
     pipeIn: "{{ workspace }}/{{ idName }}.jsonl"
   async: 10
   poll: 0 

@@ -1,0 +1,24 @@
+- name: Compare source and target files
+  block:
+    - name: Find all files in source directory
+      find:
+        paths: "{{ workspace }}/source"
+        recurse: no
+      register: found_source_files
+
+    - name: Diff source against target if target file exists
+      shell: |
+        TARGET_FILE="{{ workspace }}/target/{{ item.path | basename }}"
+        if [ -f "$TARGET_FILE" ]; then
+          diff -u "{{ item.path }}" "$TARGET_FILE"
+        fi
+      loop: "{{ found_source_files.files }}"
+      register: diff_results
+      changed_when: false
+      failed_when: false # Prevent play from stopping if diff finds differences
+
+    - name: Print the diff results
+      debug:
+        msg: "{{ item.stdout }}"
+      loop: "{{ diff_results.results }}"
+      when: item.stdout != ""
