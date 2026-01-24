@@ -10,7 +10,7 @@
     lino table extract source 
     lino relation extract source  
   args:
-    executable: /bin/bash -l
+    executable: /bin/bash
   register: connectsrc_result
 
 - name: "LINO Connect target : {{ target_db }}"
