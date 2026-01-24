@@ -21,10 +21,10 @@
 #    mode: '0644'
 #  notify: Update CA certificates
 
-- name: Ensure /usr/lino directory exists
+- name: Ensure {{ install_dir }} directory exists
   become: true
   ansible.builtin.file:
-    path: /usr/lino
+    path: {{ install_dir }}
     state: directory
     mode: '0755'
 
@@ -56,7 +56,7 @@
     become: true
     ansible.builtin.unarchive:
       src: "/tmp/{{ item.url | basename }}"
-      dest: /usr/lino
+      dest: "{{ install_dir }}"
       remote_src: yes
       extra_opts: [--strip-components=0] # Adjust if tars have subfolders
       creates: "{{ item.creates }}"
@@ -65,11 +65,11 @@
       label: "{{ item.name }}"
 
 
-- name: Add /usr/lino to user PATH in .bashrc
+- name: Add {{ install_dir }} to user PATH in .bashrc
   become: false
   lineinfile:
     path: ~/.bashrc
-    line: 'export PATH="$PATH:/usr/lino"'
+    line: 'export PATH="$PATH:{{ install_dir }}"'
     state: present
     insertafter: EOF
 

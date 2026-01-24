@@ -3,6 +3,8 @@
   hosts: localhost
   connection: local
   gather_facts: false
+  environment:
+    PATH: "{{ ansible_env.PATH }}:{{ install_dir }}"
   vars:
     #  Business variables
     workspace: "example/petstore"
@@ -13,8 +15,6 @@
     fifo_pets: "/tmp/pets.jsonl"
     fifo_owners: "/tmp/owners.jsonl"
     fifo_pets_masking: "/tmp/pets-masking.jsonl"
-  environment:
-    PATH: "{{ ansible_env.PATH }}:/usr/lino"
 
   tasks:
     - include_role:
@@ -54,7 +54,15 @@
         tasks_from: push
       vars:
         idName: "pets"
+        pipeIn: "{{ fifo_pets_masking }}"
+
+    - include_role:
+        name: OB-Live.nino
+        tasks_from: mask
+      vars:
+        idName: "pets"
         pipeIn: "{{ fifo_pets }}"
+        pipeOut: "{{ fifo_pets_masking }}"
 
     - include_role:
         name: OB-Live.nino
@@ -62,8 +70,3 @@
       vars:
         idName: "pets"
         pipeOut: "{{ fifo_pets }}"
-
-
-    - name: Verify the results
-      debug:
-        msg: "Content of README.md has been sent through pipes to target db"

@@ -5,7 +5,8 @@ NINO stands for Narrow Input, Narrow Output.  It is an Ansible role for LINO, PI
 
 # Documentation 
 
-find out more about the software used https://cgi-fr.github.io/lino-doc/
+- Find out more on the component's [Documentation]https://cgi-fr.github.io/lino-doc/
+- Try out the masking options [pimo-play](https://cgi-fr.github.io/pimo-play)
 
 ## Install
 ```sh 
@@ -29,18 +30,18 @@ sigo_version: "0.4.0"
 # install variables 
 workspace: "business"
 install_dir: "/usr/bin"
-tables: "{{workspace}}/tables.yml"
-relations: "{{workspace}}/relations.yml"
+tables: "{{ workspace }}/tables.yml"
+relations: "{{ workspace }}/relations.yml"
 lino_components:
   - name: LINO
     url: "https://github.com/CGI-FR/LINO/releases/download/v{{ lino_version }}/LINO_{{ lino_version }}_linux_amd64.tar.gz"
-    creates: /usr/lino/lino
+    creates: "{{ install_dir }}/lino"
   - name: PIMO
     url: "https://github.com/CGI-FR/PIMO/releases/download/v{{ pimo_version }}/PIMO_{{ pimo_version }}_linux_amd64.tar.gz"
-    creates: /usr/lino/pimo
+    creates: "{{ install_dir }}/pimo"
   - name: SIGO
     url: "https://github.com/CGI-FR/SIGO/releases/download/v{{ sigo_version }}/SIGO_{{ sigo_version }}_linux_amd64.tar.gz"
-    creates: /usr/lino/sigo
+    creates: "{{ install_dir }}/sigo"
 ```
 
 # Dependencies 
@@ -112,11 +113,6 @@ A list of other roles hosted on Galaxy should go here, plus any details in regar
       vars:
         idName: "pets"
         pipeOut: "{{ fifo_pets }}"
-
-
-    - name: Verify the results
-      debug:
-        msg: "Content of README.md has been sent through pipes to target db"
 ```
 
 # License 
