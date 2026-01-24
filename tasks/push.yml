@@ -2,18 +2,17 @@
 - name: "LINO Push : {{ idName }}"
   shell: |
     export PATH="$PATH:/usr/lino"
-    lino dc add cible {{ target_db }}  -P ADMIN -u jhpetclinic
-    lino dc ping cible 
-    lino push cible -v5 -i {{ descriptor }} < {{ pipeIn }}
-    lino push update cible -v5 -i {{ descriptor }} < {{ pipeIn }}
+    # lino push target -v5 -i {{ descriptor }} < {{ pipeIn }}
+    nohup lino push target cible -v5 -i {{ descriptor }} < {{ pipeIn }} 2>&1 &
     echo "pushed {{ idName }} <- {{ pipeIn }}"
   args:
     executable: /bin/bash
   register: push_result
-
   vars:
     descriptor: "{{ workspace }}/{{ idName }}-descriptor.yml"
     pipeIn: "{{ workspace }}/{{ idName }}.jsonl"
+  async: 10
+  poll: 0 
 
 
 - name: "Log - Push : {{ idName }}"
