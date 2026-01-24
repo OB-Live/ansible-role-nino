@@ -1,7 +1,7 @@
 ---
 - name: "PIMO Masking : {{ idName }}"
   shell: |
-    pimo -c {{ masking }} < {{ data_in }} > {{data_out}}
+    pimo -c {{ masking }} < {{ pipeIn }} > {{ pipeOut }}
   args:
     executable: /bin/bash
   register: mask_result

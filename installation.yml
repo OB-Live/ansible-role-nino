@@ -1,0 +1,23 @@
+---
+- name: LINO Installation Playbook
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  become: true
+
+  roles:
+    - role: arillso.ca_certificates
+      ignore_errors: true
+    - role: gantsign.golang
+      ignore_errors: true
+    - role: geerlingguy.docker
+      ignore_errors: true
+
+  tasks:
+    - include_role:
+        name: OB-Live.nino
+        tasks_from: install
+
+   
+
+

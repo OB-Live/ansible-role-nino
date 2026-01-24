@@ -17,17 +17,15 @@
     fifo_pets_masking: "/tmp/pets-masking.jsonl"
 
   tasks:
-    - include_role:
-        name: OB-Live.nino
-        tasks_from: install
+    # - include_role:
+    #     name: OB-Live.nino
+    #     tasks_from: install
 
     - include_role:
         name: OB-Live.nino
         tasks_from: connect
 
-    - include_role:
-        name: OB-Live.nino
-        tasks_from: fifos
+    - include_role: { name: OB-Live.nino, tasks_from: fifos }
       loop:
         - "{{ fifo_pets_masking }}"
         - "{{ fifo_pets }}"
@@ -63,6 +61,7 @@
         idName: "pets"
         pipeIn: "{{ fifo_pets }}"
         pipeOut: "{{ fifo_pets_masking }}"
+        masking: "{{ workspace }}/pets-masking.yml"
 
     - include_role:
         name: OB-Live.nino
