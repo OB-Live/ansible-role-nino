@@ -1,0 +1,9 @@
+---
+- name: Clear the named pipes {{ item }}
+  command: rm -f {{ item }}
+  ignore_errors: true
+
+- name: Create the named pipe {{ item }}
+  command: mkfifo {{ item }}
+  args:
+    creates: "{{ item }}"

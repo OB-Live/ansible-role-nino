@@ -1,0 +1,75 @@
+---
+- name: FIFO data transfer demonstration
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  # become: true
+  vars:
+  # installation variables
+    # Default list of LINO components to download/extract.
+    # URLs use version variables (set these in role defaults or inventory).
+    lino_components:
+    - name: LINO
+      url: "https://github.com/CGI-FR/LINO/releases/download/v{{ lino_version }}/LINO_{{ lino_version }}_linux_amd64.tar.gz"
+      creates: /usr/lino/lino
+    - name: PIMO
+      url: "https://github.com/CGI-FR/PIMO/releases/download/v{{ pimo_version }}/PIMO_{{ pimo_version }}_linux_amd64.tar.gz"
+      creates: /usr/lino/pimo
+    - name: SIGO
+      url: "https://github.com/CGI-FR/SIGO/releases/download/v{{ sigo_version }}/SIGO_{{ sigo_version }}_linux_amd64.tar.gz"
+      creates: /usr/lino/sigo
+    lino_version: "3.6.1"
+    pimo_version: "1.31.3"
+    sigo_version: "0.4.0"
+    install_dir: "/usr/bin"
+    workspace: "business"
+    tables: "{{workspace}}/tables.yml"
+    relations: "{{workspace}}/relations.yml"
+
+    #  Business case variables
+    source_db: "postgresql://localhost:5432/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
+    target_db: "postgresql://localhost:5433/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
+
+    ### fifo files
+    fifo_pets: "/tmp/pets.jsonl"
+    fifo_owners: "/tmp/owners.jsonl"
+    fifo_pets_masking: "/tmp/pets-masking.jsonl" 
+
+  tasks:
+    - name: install
+      include_tasks: tasks/install.yml
+    - name: Conect to source and target databases - Owners and Pets
+      include_tasks: tasks/connect.yml
+
+    - name: Set fifos
+      include_tasks: tasks/fifos.yml
+      loop:
+        - "{{ fifo_pets_masking }}"
+        - "{{ fifo_pets }}"
+        - "{{ fifo_owners }}"
+
+# Owners
+    - include_tasks: tasks/pull.yml
+      vars:
+        idName: "owners"
+        pipeOut: "owners.jsonl"
+
+    - include_tasks: tasks/push.yml
+      vars:
+        idName: "owners"
+        pipeIn: "owners.jsonl"
+
+# Pets
+    - include_tasks: tasks/pull.yml
+      vars:
+        idName: "pets"
+        pipeOut: "pets.jsonl"
+
+    - include_tasks: tasks/push.yml
+      vars:
+        idName: "pets"
+        pipeIn: "pets.jsonl"
+
+    - name: Verify the results
+      debug:
+        msg: "Content of README.md has been sent through pipes to target db"

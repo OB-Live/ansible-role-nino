@@ -1,53 +1,72 @@
-- name: Créer le répertoire d'installation
-  file:
-    path: "{{ install_dir }}"
-    state: directory
-    mode: "0755"
+---
 
-- name: Télécharger le binaire LINO
-  ansible.builtin.get_url:
-    url: "https://github.com/CGI-FR/LINO/releases/download/v{{ lino_version }}/LINO_{{ lino_version }}_linux_amd64.tar.gz"
-    dest: "/tmp/lino_{{ lino_version }}.tar.gz"
-    mode: "0644"
+- name: Install prerequisite packages
+  become: true
+  ansible.builtin.apt:
+    name:
+      - curl
+      - jq
+      - diffutils
+      - ca-certificates
+    state: present
+  environment:
+    DEBIAN_FRONTEND: noninteractive
 
-- name: Extraire le binaire LINO
-  ansible.builtin.unarchive:
-    src: "/tmp/lino_{{ lino_version }}.tar.gz"
-    dest: "{{ install_dir }}"
-    mode: "0755"
-    remote_src: yes
 
-- name: Vérifier la version de LINO
-  ansible.builtin.command: "{{ install_dir }}/lino --version"
-  register: lino_version_out
-  changed_when: false
-
-- name: Télécharger le binaire PIMO
-  ansible.builtin.get_url:
-    url: "https://github.com/CGI-FR/PIMO/releases/download/v{{ pimo_version }}/PIMO_{{ pimo_version }}_linux_amd64.tar.gz"
-    dest: "/tmp/pimo_{{ pimo_version }}.tar.gz"
-    mode: "0644"
-
-- name: Extraire le binaire PIMO
-  ansible.builtin.unarchive:
-    src: "/tmp/pimo_{{ pimo_version }}.tar.gz"
-    dest: "{{ install_dir }}"
-    remote_src: yes
-#
-#- name: Installer le binaire PIMO
+#- name: Copy certificate to trusted store
+#  become: true
 #  ansible.builtin.copy:
-#    src: "/tmp/pimo_extract/pimo"
-#    dest: "{{ install_dir }}/pimo"
-#    mode: "0755"
+#    src: cgi_zscaler_ca_root.crt
+#    dest: /usr/local/share/ca-certificates/cgi_zscaler_ca_root.crt
+#    mode: '0644'
+#  notify: Update CA certificates
 
-- name: Vérifier la version de PIMO
-  ansible.builtin.command: "{{ install_dir }}/pimo --version"
-  register: pimo_version_out
-  changed_when: false
+- name: Ensure /usr/lino directory exists
+  become: true
+  ansible.builtin.file:
+    path: /usr/lino
+    state: directory
+    mode: '0755'
 
-- name: Afficher les versions installées
-  ansible.builtin.debug:
-    msg: |
-      LINO version: {{ lino_version_out.stdout }}
-      PIMO version: {{ pimo_version_out.stdout }}
+- block: 
+  - name: Download LINO components to cache (idempotent)
+    become: true
+    ansible.builtin.get_url:
+      url: "{{ item.url }}"
+      dest: "/tmp/{{ item.url | basename }}"
+      mode: '0644'
+      force: no                # don't re-download if file already present
+      validate_certs: no
+    loop: "{{ lino_components }}"
+    loop_control:
+      label: "{{ item.name }}"
+    register: download_result
+    until: download_result is succeeded
+    retries: 2
+    delay: 5
 
+  - name: Extract LINO components
+    become: true
+    ansible.builtin.unarchive:
+      src: "/tmp/{{ item.url | basename }}"
+      dest: /usr/lino
+      remote_src: yes
+      extra_opts: [--strip-components=0] # Adjust if tars have subfolders
+      creates: "{{ item.creates }}"
+    loop: "{{ lino_components }}"
+    loop_control:
+      label: "{{ item.name }}"
+
+
+- name: Add /usr/lino to user PATH in .bashrc
+  become: false
+  lineinfile:
+    path: ~/.bashrc
+    line: 'export PATH="$PATH:/usr/lino"'
+    state: present
+    insertafter: EOF
+
+- name: Reload .bashrc to update PATH for the current session
+  shell: source ~/.bashrc
+  args:
+    executable: /bin/bash

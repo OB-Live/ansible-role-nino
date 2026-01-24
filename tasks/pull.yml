@@ -1,3 +1,20 @@
-- name: Pull
-  shell: "cat README.md > {{ pipeOut }}"
-  ignore_errors: true
+---
+- name: "LINO Pull : {{ idName }}"
+  shell: |
+    export PATH="$PATH:/usr/lino"
+    lino pull source -l 10 {{descriptor}}.yaml > {{ pipeOut }}
+  args:
+    executable: /bin/bash
+  register: pull_result
+  vars:
+    descriptor: "-i business/{{ idName }}-descriptor"
+    #data_out: "business/{{ idName }}_data.jsonl"
+
+
+- name:  "Log - Pull : {{ idName }}"
+  debug:
+    var: pull_result.stdout_lines
+
+# - name: Pull
+#   shell: "cat README.md > {{ pipeOut }}"
+#   ignore_errors: true

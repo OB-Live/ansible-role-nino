@@ -1,0 +1,46 @@
+---
+- name: "LINO Connect source : {{ source_db }}"
+  shell: |
+    export PATH="$PATH:/usr/lino"
+    lino dc add source {{ source_db }} 
+    lino dc ping source 
+    lino table extract source 
+    lino relation extract source  
+  args:
+    executable: /bin/bash
+  register: connectsrc_result
+
+- name: "LINO Connect target : {{ target_db }}"
+  shell: |
+    export PATH="$PATH:/usr/lino"
+    lino dc add target {{ target_db }} 
+    lino dc ping target 
+  args:
+    executable: /bin/bash
+  register: connecttgt_result
+
+- block:
+  - name: "extract metadata for {{ item }}"
+    shell: |
+      export PATH="$PATH:/usr/lino"
+      lino id create {{ item }} -i {{descriptor}}.yml        
+      lino id display-plan -i {{descriptor}}.yaml 
+    args:
+      executable: /bin/bash
+    register: extract_result
+    vars:
+      descriptor: "{{workspace}}/{{ item }}-descriptor"
+      #data_out: "business/{{ idName }}_data.jsonl"
+    loop: 
+    - 'owners'
+    - 'pets'
+
+  - name:  "Log - Connect : {{ item }}"
+    debug:
+      var: extract_result.stdout_lines
+    loop: 
+    - 'owners'
+    - 'pets'
+# - name: Pull
+#   shell: "cat README.md > {{ pipeOut }}"
+#   ignore_errors: true

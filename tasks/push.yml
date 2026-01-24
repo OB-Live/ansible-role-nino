@@ -1,5 +1,29 @@
-- name: Declare Push
-  shell: "nohup cat {{ pipeIn }} > pets-{{ pipeOut }} 2>&1 &"
-  async: 10
-  poll: 0
-  register: listener_task
+---
+- name: "LINO Push : {{ idName }}"
+  shell: |
+    export PATH="$PATH:/usr/lino"
+    lino dc add cible {{ target_db }}  -P ADMIN -u jhpetclinic
+    lino dc ping cible 
+    
+    lino push cible -v5 {{ descriptor }}.yaml < {{ pipeIn }}
+    lino push update cible -v5 {{ descriptor }}.yaml < {{ pipeIn }}
+    echo "pushed {{ idName }} <- {{ pipeIn }}"
+  args:
+    executable: /bin/bash
+  register: push_result
+
+  vars:
+    descriptor: "-i {{workspace}}/{{ idName }}-descriptor"
+    pipeIn: "{{workspace}}/{{ idName }}_data.jsonl"
+
+
+- name: "Log - Push : {{ idName }}"
+  debug:
+    var: push_result.stdout_lines
+
+
+# - name: Declare Push
+#   shell: "nohup cat {{ pipeIn }} > pets-{{ pipeOut }} 2>&1 &"
+#   async: 10
+#   poll: 0
+#   register: listener_task

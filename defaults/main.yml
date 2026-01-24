@@ -1,3 +1,16 @@
 ---
 # defaults file for nino
-install_dir: "/usr/bin"
+install_dir: "/usr/lino"
+
+# Default list of LINO components to download/extract.
+# URLs use version variables (set these in role defaults or inventory).
+lino_components:
+  - name: LINO
+    url: "https://github.com/CGI-FR/LINO/releases/download/v{{ lino_version }}/LINO_{{ lino_version }}_linux_amd64.tar.gz"
+    creates: /usr/lino/lino
+  - name: PIMO
+    url: "https://github.com/CGI-FR/PIMO/releases/download/v{{ pimo_version }}/PIMO_{{ pimo_version }}_linux_amd64.tar.gz"
+    creates: /usr/lino/pimo
+  - name: SIGO
+    url: "https://github.com/CGI-FR/SIGO/releases/download/v{{ sigo_version }}/SIGO_{{ sigo_version }}_linux_amd64.tar.gz"
+    creates: /usr/lino/sigo
