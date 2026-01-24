@@ -4,6 +4,6 @@
   ignore_errors: true
 
 - name: Create the named pipe {{ item }}
-  command: mkfifo {{ item }}
+  command: mkfifo --m 666 {{ item }}
   args:
     creates: "{{ item }}"

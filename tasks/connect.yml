@@ -22,7 +22,7 @@
   register: connecttgt_result
 
 - block:
-  - name: "Extract metadata for {{ item }}"
+  - name: "Extract metadata"
     shell: |
       lino id create {{ item }} -i {{ descriptor }}       
       lino id display-plan -i {{ descriptor }} 

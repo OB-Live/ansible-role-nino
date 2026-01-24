@@ -1,19 +1,13 @@
 ---
 - name: "Execute LINO Pull : {{ idName }}"
   shell: |
-    lino pull source -l 10 {{ descriptor }} > {{ pipeOut }}
+    lino pull source -l 10 -i {{ descriptor }} > {{ pipeOut }}
   args:
     executable: /bin/bash
   register: pull_result
   vars:
-    descriptor: "-i {{ workspace }}/{{ idName }}-descriptor.yml"
-    #data_out: "business/{{ idName }}_data.jsonl"
-
+    descriptor: "{{ workspace }}/{{ idName }}-descriptor.yml"
 
 - name:  "Log - Pull : {{ idName }}"
   debug:
-    var: pull_result.stdout_lines
-
-# - name: Pull
-#   shell: "cat README.md > {{ pipeOut }}"
-#   ignore_errors: true
+    var: pull_result
