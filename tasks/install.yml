@@ -24,7 +24,7 @@
 - name: Ensure {{ install_dir }} directory exists
   become: true
   ansible.builtin.file:
-    path: {{ install_dir }}
+    path: "{{ install_dir }}"
     state: directory
     mode: '0755'
 
