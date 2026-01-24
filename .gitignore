@@ -4,3 +4,7 @@
 /pets-masking.jsonl
 /pets-target.md
 /.idea/
+relations.yaml
+tables.yaml
+ingress-descriptor.dot
+dataconnector.yaml

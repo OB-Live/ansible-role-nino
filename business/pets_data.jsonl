@@ -1,1 +1,0 @@
-{"id":"16","name":"Bob","birth_date":"2000-11-10T00:00:00Z","type_id":"4","owner_id":"5","fk_pets_owner_id":{"id":"5","first_name":"Peter","last_name":"McTavish","address":"2387 S. Fair Way","city":"Madison","telephone":"6085552765"},"fk_visits_pet_id":[]}
