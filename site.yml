@@ -1,8 +1,0 @@
----
-- name: Deploy LINO Stack to Servers
-  hosts: localhost
-  become: true
-  roles:
-    - lino
-  tasks:
-    - include_tasks: roles/lino/tasks/install.yml
