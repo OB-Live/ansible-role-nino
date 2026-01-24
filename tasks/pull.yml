@@ -2,12 +2,12 @@
 - name: "LINO Pull : {{ idName }}"
   shell: |
     export PATH="$PATH:/usr/lino"
-    lino pull source -l 10 {{descriptor}}.yaml > {{ pipeOut }}
+    lino pull source -l 10 {{ descriptor }} > {{ pipeOut }}
   args:
     executable: /bin/bash
   register: pull_result
   vars:
-    descriptor: "-i business/{{ idName }}-descriptor"
+    descriptor: "-i {{ workspace }}/{{ idName }}-descriptor.yml"
     #data_out: "business/{{ idName }}_data.jsonl"
 
 

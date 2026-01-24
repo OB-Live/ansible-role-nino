@@ -4,17 +4,16 @@
     export PATH="$PATH:/usr/lino"
     lino dc add cible {{ target_db }}  -P ADMIN -u jhpetclinic
     lino dc ping cible 
-    
-    lino push cible -v5 {{ descriptor }}.yaml < {{ pipeIn }}
-    lino push update cible -v5 {{ descriptor }}.yaml < {{ pipeIn }}
+    lino push cible -v5 -i {{ descriptor }} < {{ pipeIn }}
+    lino push update cible -v5 -i {{ descriptor }} < {{ pipeIn }}
     echo "pushed {{ idName }} <- {{ pipeIn }}"
   args:
     executable: /bin/bash
   register: push_result
 
   vars:
-    descriptor: "-i {{workspace}}/{{ idName }}-descriptor"
-    pipeIn: "{{workspace}}/{{ idName }}_data.jsonl"
+    descriptor: "{{ workspace }}/{{ idName }}-descriptor.yml"
+    pipeIn: "{{ workspace }}/{{ idName }}.jsonl"
 
 
 - name: "Log - Push : {{ idName }}"

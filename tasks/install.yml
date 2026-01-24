@@ -28,10 +28,10 @@
     state: directory
     mode: '0755'
 
-- name: Ensure {{workspace}} directory exists
+- name: "Ensure {{ workspace }} directory exists"
   become: false
   ansible.builtin.file:
-    path: {{workspace}}
+    path: "{{ workspace }}"
     state: directory
     mode: '0755'
 

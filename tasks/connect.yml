@@ -27,13 +27,13 @@
   - name: "extract metadata for {{ item }}"
     shell: |
       export PATH="$PATH:/usr/lino"
-      lino id create {{ item }} -i {{descriptor}}.yml        
-      lino id display-plan -i {{descriptor}}.yaml 
+      lino id create {{ item }} -i {{ descriptor }}       
+      lino id display-plan -i {{ descriptor }} 
     args:
       executable: /bin/bash
     register: extract_result
     vars:
-      descriptor: "{{workspace}}/{{ item }}-descriptor"
+      descriptor: "{{ workspace }}/{{ item }}-descriptor.yml"
       #data_out: "business/{{ idName }}_data.jsonl"
     loop: 
     - 'owners'
