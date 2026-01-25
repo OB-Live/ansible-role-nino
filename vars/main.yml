@@ -6,7 +6,7 @@ sigo_version: "0.4.0"
 
 # install variables 
 workspace: "business"
-install_dir: "/usr/bin"
+install_dir: "/usr/lino"
 tables: "{{workspace}}/tables.yml"
 relations: "{{workspace}}/relations.yml"
 
@@ -24,3 +24,8 @@ lino_components:
   - name: SIGO
     url: "https://github.com/CGI-FR/SIGO/releases/download/v{{ sigo_version }}/SIGO_{{ sigo_version }}_linux_amd64.tar.gz"
     creates: "{{ install_dir }}/sigo"
+
+ca_certificates_files: 
+  - name: cgi_zscaler_ca_root
+    file: "cgi_zscaler_ca_root.crt"
+

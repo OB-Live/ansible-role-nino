@@ -4,6 +4,8 @@
   connection: local
   gather_facts: true
   become: true
+  vars:
+    golang_mirror: "https://go.dev/dl"
 
   roles:
     - role: arillso.ca_certificates

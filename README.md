@@ -29,19 +29,10 @@ sigo_version: "0.4.0"
 
 # install variables 
 workspace: "business"
-install_dir: "/usr/bin"
+install_dir: "/usr/lino"
 tables: "{{ workspace }}/tables.yml"
 relations: "{{ workspace }}/relations.yml"
-lino_components:
-  - name: LINO
-    url: "https://github.com/CGI-FR/LINO/releases/download/v{{ lino_version }}/LINO_{{ lino_version }}_linux_amd64.tar.gz"
-    creates: "{{ install_dir }}/lino"
-  - name: PIMO
-    url: "https://github.com/CGI-FR/PIMO/releases/download/v{{ pimo_version }}/PIMO_{{ pimo_version }}_linux_amd64.tar.gz"
-    creates: "{{ install_dir }}/pimo"
-  - name: SIGO
-    url: "https://github.com/CGI-FR/SIGO/releases/download/v{{ sigo_version }}/SIGO_{{ sigo_version }}_linux_amd64.tar.gz"
-    creates: "{{ install_dir }}/sigo"
+
 ```
 
 # Dependencies 

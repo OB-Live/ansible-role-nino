@@ -19,13 +19,14 @@
   tasks:
 
     - name: Deploy example's stack with Docker Compose
+      # become: true
       community.docker.docker_compose_v2:
         project_src: "{{ workspace }}"
         files:
           - docker-compose.yml  # You can stack multiple files
         state: present
         wait: true                   # Wait for containers to be healthy
-        build: never                 # Use 'always' if you want to force image builds
+        # build: never                 # Use 'always' if you want to force image builds
       register: compose_output
 
     - name: Debug compose status
