@@ -19,5 +19,3 @@ dependencies:
   - role: gantsign.golang
   - role: arillso.ca_certificates
   - role: geerlingguy.docker
-
-  - collection:  community.docker
