@@ -12,9 +12,9 @@
     target_db: "postgresql://localhost:5433/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
 
     ### fifo files
-    fifo_pets: "/tmp/pets.jsonl"
-    fifo_owners: "/tmp/owners.jsonl"
-    fifo_pets_masking: "/tmp/pets-masking.jsonl"
+    fifo_pets: "{{ workspace }}/pipes/pets.jsonl"
+    fifo_owners: "{{ workspace }}/pipes/owners.jsonl"
+    fifo_pets_masking: "{{ workspace }}/pipes/pets-masking.jsonl"
 
   tasks:
 
@@ -33,7 +33,6 @@
       debug:
         var: compose_output.actions
 
-
     # Check connections and initialize FIFOs
     - include_role: { name: OB-Live.nino, tasks_from: connect }
       vars:
@@ -45,36 +44,33 @@
         - "{{ fifo_pets }}"
         - "{{ fifo_owners }}"
 
-    # Business logic here
-    # Owners
-    - include_role: { name: OB-Live.nino, tasks_from: push } # declare push
-    # - include_tasks: "tasks/push.yml"
+    #### Business logic here
+    ##### Owners
+    - include_role: { name: OB-Live.nino, tasks_from: push } # declare push 
       vars:
         idName: "owners"
-        pipeIn: "{{ fifo_owners }}"
+        # pipeIn: "{{ fifo_owners }}"
 
-    - include_role: { name: OB-Live.nino, tasks_from: pull } # then pull
-    # - include_tasks: "tasks/pull.yml"
+    - include_role: { name: OB-Live.nino, tasks_from: pull } # then pull 
       vars:
         idName: "owners"
-        pipeOut: "{{ fifo_owners }}"
+        # pipeOut: "{{ fifo_owners }}"
         workspace: "example/petstore"
 
-    # Pets
+    #### Pets
     - include_role: { name: OB-Live.nino, tasks_from: push }
       vars:
         idName: "pets"
         pipeIn: "{{ fifo_pets_masking }}"
 
-    - include_role: { name: OB-Live.nino, tasks_from: mask }
-    # - include_tasks: "tasks/mask.yml"
+    - include_role: { name: OB-Live.nino, tasks_from: mask } 
       vars:
         idName: "pets"
-        pipeIn: "{{ fifo_pets }}"
-        pipeOut: "{{ fifo_pets_masking }}"
-        masking: "{{ workspace }}/target/pets-masking.yml"
+        # pipeIn: "{{ fifo_pets }}"
+        # pipeOut: "{{ fifo_pets_masking }}"
+        # masking: "{{ workspace }}/target/pets-masking.yml"
 
     - include_role: { name: OB-Live.nino, tasks_from: pull }
       vars:
         idName: "pets"
-        pipeOut: "{{ fifo_pets }}"
+        # pipeOut: "{{ fifo_pets }}"

@@ -4,6 +4,10 @@
   args:
     executable: /bin/bash
   register: mask_result
+  vars:
+    masking: "{{ workspace }}/target/{{ idName }}-masking.yml"
+    pipeIn: "{{ workspace }}/pipes/{{ idName }}.jsonl"
+    pipeOut: "{{ workspace }}/pipes/{{ idName }}-masking.jsonl"
 
 - name: "Log - Masking : {{ idName }}"
   debug:
