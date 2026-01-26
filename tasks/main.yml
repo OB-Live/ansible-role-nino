@@ -6,7 +6,7 @@
 #     id_mask: "{{ fifos_dir }}/{{ idName }}-masked.jsonl"
 #     yaml_mask: "{{ workspace }}/target/{{ idName }}-masking.yml"
 
-- include_tasks: "install.yml"
+# - include_tasks: "install.yml"
 - include_tasks: connect.yml
 - include_tasks: fifos.yml
   loop:
