@@ -11,5 +11,4 @@
 - name:  "Log - Pull : {{ idName }}"
   debug:
     var: 
-      - pull_result.cmd
-      - pull_result.stdout_lines
+      - pull_result

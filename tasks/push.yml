@@ -13,5 +13,4 @@
 - name: "Log - Push : {{ idName }}"
   debug:
     var:
-      - push_result.cmd
-      - push_result.stdout_lines
+      - push_result

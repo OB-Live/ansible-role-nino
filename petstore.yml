@@ -12,6 +12,7 @@
     target_db: "postgresql://localhost:5433/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
 
     ### fifo files
+    fifos_dir: "/tmp"
     fifo_pets: "{{ fifos_dir }}/pets.jsonl"
     fifo_owners: "{{ fifos_dir }}/owners.jsonl"
     fifo_pets_masking: "{{ fifos_dir }}/pets-masking.jsonl"
@@ -34,9 +35,9 @@
         var: compose_output.actions
 
     # Check connections and initialize FIFOs
-    # - include_role: { name: OB-Live.nino, tasks_from: connect }
-    - include_tasks: "tasks/connect.yml"
-      name: huhu
+    - include_role: { name: OB-Live.nino, tasks_from: connect }
+    # - include_tasks: "tasks/connect.yml"
+    #   name: huhu
       vars:
         workspace: "example/petstore"
 
