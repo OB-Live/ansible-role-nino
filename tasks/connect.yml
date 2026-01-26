@@ -41,5 +41,5 @@
       msg: 
         - "{{ connectsrc_result.stdout_lines }}"
         - "{{ connecttgt_result.stdout_lines }}"
-        - "{{ extract_result.stdout_lines }}"
+        - "{{ extract_result }}"
  
