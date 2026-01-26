@@ -10,7 +10,6 @@
   async: 10
   poll: 0 
 
-# - name: "Log - Push : {{ idName }}"
-#   debug:
-#     var:
-#       - push_result
+- name: "Log - Push : {{ idName }}"
+  debug:
+    var: push_result

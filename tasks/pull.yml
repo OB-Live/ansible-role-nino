@@ -6,9 +6,8 @@
   register: pull_result
   vars:
     descriptor: "{{ workspace }}/target/{{ idName }}-descriptor.yml"
-    pipeOut: "{{ fifos_dir }}/{{ idName }}.jsonl"
+    
 
 - name:  "Log - Pull : {{ idName }}"
   debug:
-    var: 
-      - pull_result
+    var: pull_result
