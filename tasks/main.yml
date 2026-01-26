@@ -6,22 +6,22 @@
 #     id_mask: "{{ fifos_dir }}/{{ idName }}-masked.jsonl"
 #     yaml_mask: "{{ workspace }}/target/{{ idName }}-masking.yml"
 
-- name: install
-- name: connect
-- name: fifos
+- include_tasks: "install.yml"
+- include_tasks: connect.yml
+- include_tasks: fifos.yml
   loop:
     - "{{ id_json }}"
     - "{{ id_mask }}"
-- name: push
+- include_tasks: push.yml
   vars:
     pipeIn: "{{ id_mask if masking is defined else id_json }}"
   when: pipeIn is not defined
-- name: mask
+- include_tasks: mask
   vars:
     pipeIn: "{{ id_json }}"
     pipeOut: "{{ id_mask }}"
     masking: "{{ yaml_mask }}"
   when: masking is defined
-- name: pull
+- include_tasks: pull
   vars:
     pipeOut: "{{ id_json }}"
