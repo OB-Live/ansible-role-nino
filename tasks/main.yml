@@ -15,7 +15,7 @@
 - include_tasks: push.yml
   vars:
     pipeIn: "{{ id_mask if masking is defined else id_json }}"
-  when: pipeIn is not defined
+
 - include_tasks: mask.yml
   vars:
     pipeIn: "{{ id_json }}"
