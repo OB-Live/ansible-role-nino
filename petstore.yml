@@ -5,6 +5,7 @@
   gather_facts: false
   environment:
     PATH: "{{ ansible_env.PATH }}:{{ install_dir }}"
+    ADMIN: admin
   vars:
     #  Business variables
     workspace: "example/petstore"
@@ -35,7 +36,6 @@
         var: compose_output.actions
 
     #### BUSINESS LOGIC HERE ####
-
     # Check connections and initialize FIFOs
     - include_role: { name: OB-Live.nino, tasks_from: connect } 
       vars:

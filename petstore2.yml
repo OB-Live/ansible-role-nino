@@ -1,0 +1,44 @@
+---
+- name: LINO Petstore Example
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  environment:
+    PATH: "{{ ansible_env.PATH }}:{{ install_dir }}"
+    ADMIN: admin
+  vars:
+    #  Business variables
+    workspace: "example/petstore"
+    source_db: "postgresql://localhost:5432/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
+    target_db: "postgresql://localhost:5433/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
+
+  pre_tasks:
+    - name: Deploy example's stack with Docker Compose
+      # become: true
+      community.docker.docker_compose_v2:
+        project_src: "{{ workspace }}"
+        files:
+          - docker-compose.yml  # You can stack multiple files
+        state: present
+        wait: true                   
+        # build: never                 
+      register: compose_output
+
+    - name: Debug compose status
+      debug:
+        var: compose_output.actions
+
+  
+  #### BUSINESS LOGIC HERE ####
+  roles:
+    - name: OB-Live.nino
+      vars:
+        idName: "owners"
+    
+    - name: OB-Live.nino
+      vars:
+        idName: "pets" 
+        id_json: "{{ fifos_dir }}/pets.jsonl"                         # Optional
+        id_mask: "{{ fifos_dir }}/pets-masked.jsonl"                  # Optional 
+        yaml_mask: "{{ workspace }}/target/{{ idName }}-masking.yml"  # Optional
+ 

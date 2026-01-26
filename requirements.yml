@@ -1,0 +1,7 @@
+---
+- name: gantsign.golang
+  src: https://github.com/gantsign/ansible-role-golang/
+- name: arillso.ca_certificates
+  src:  https://github.com/arillso/ansible.ca-certificates
+- name: geerlingguy.docker
+  src: https://github.com/geerlingguy/ansible-role-docker
