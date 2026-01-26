@@ -39,7 +39,7 @@
   - name:  "Log - Connecting and Extracting metadata"
     debug:
       msg: 
-        - "{{ connectsrc_result }}"
-        - "{{ connecttgt_result }}"
-        - "{{ extract_result }}"
+        - "{{ connectsrc_result.stdout_lines }}"
+        - "{{ connecttgt_result.stdout_lines }}"
+        - "{{ extract_result.stdout_lines }}"
  

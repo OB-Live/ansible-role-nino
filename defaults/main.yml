@@ -1,6 +1,6 @@
 # defaults file for nino
 workspace: "business"
-descriptor: "{{ workspace }}/target/{{ idName }}-descriptor.yml"
+# descriptor: "{{ workspace }}/target/{{ idName }}-descriptor.yml"
 
 
 # vars file for nino

@@ -1,7 +1,6 @@
 ---
 - name: "Declare LINO Push : {{ idName }}"
-  shell: |
-    nohup lino push target -v5 -i {{ descriptor }} < {{ pipeIn }} 2>&1 &
+  shell: nohup lino push target -v5 -i {{ descriptor }} < {{ pipeIn }} 2>&1 &
   args:
     executable: /bin/bash
   register: push_result
@@ -13,4 +12,6 @@
 
 - name: "Log - Push : {{ idName }}"
   debug:
-    var: push_result
+    var:
+      - push_result.cmd
+      - push_result.stdout_lines
