@@ -5,8 +5,7 @@
   args:
     executable: /bin/bash
   register: pull_result
-  vars:
-    descriptor: "{{ workspace }}/target/{{ idName }}-descriptor.yml"
+ 
 
 - name:  "Log - Pull : {{ idName }}"
   debug:

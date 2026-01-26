@@ -47,8 +47,8 @@
 
     # Business logic here
     # Owners
-    # - include_role: { name: OB-Live.nino, tasks_from: push } # declare push
-    - include_tasks: "tasks/push.yml"
+    - include_role: { name: OB-Live.nino, tasks_from: push } # declare push
+    # - include_tasks: "tasks/push.yml"
       vars:
         idName: "owners"
         pipeIn: "{{ fifo_owners }}"

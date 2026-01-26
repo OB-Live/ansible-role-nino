@@ -1,1 +1,35 @@
 # defaults file for nino
+workspace: "business"
+descriptor: "{{ workspace }}/target/{{ idName }}-descriptor.yml"
+
+
+# vars file for nino
+lino_version: "3.6.1"
+pimo_version: "1.31.3"
+sigo_version: "0.4.0"
+
+# install variables 
+
+install_dir: "/usr/lino"
+tables: "{{workspace}}/tables.yml"
+relations: "{{workspace}}/relations.yml"
+
+# business case variables
+# source_db: "postgresql://localhost:5432/jhpetclinic?sslmode=disable"
+# target_db: "postgresql://localhost:5433/jhpetclinic?sslmode=disable"
+
+lino_components:
+  - name: LINO
+    url: "https://github.com/CGI-FR/LINO/releases/download/v{{ lino_version }}/LINO_{{ lino_version }}_linux_amd64.tar.gz"
+    creates: "{{ install_dir }}/lino"
+  - name: PIMO
+    url: "https://github.com/CGI-FR/PIMO/releases/download/v{{ pimo_version }}/PIMO_{{ pimo_version }}_linux_amd64.tar.gz"
+    creates: "{{ install_dir }}/pimo"
+  - name: SIGO
+    url: "https://github.com/CGI-FR/SIGO/releases/download/v{{ sigo_version }}/SIGO_{{ sigo_version }}_linux_amd64.tar.gz"
+    creates: "{{ install_dir }}/sigo"
+
+ca_certificates_files: 
+  - name: cgi_zscaler_ca_root
+    file: "cgi_zscaler_ca_root.crt"
+
