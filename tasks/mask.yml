@@ -11,5 +11,6 @@
 
 - name: "Log - Masking : {{ idName }}"
   debug:
-    var: mask_result.cmd
-    var: mask_result.stdout_lines
+    msg: 
+      - "{{mask_result.cmd}}"
+      - "{{mask_result.stdout_lines}}" 
