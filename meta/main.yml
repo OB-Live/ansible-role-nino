@@ -15,7 +15,9 @@ galaxy_info:
 
 
 dependencies:
-  - role: community.docker.docker_compose_v2
+  # - role: community.docker.docker_compose_v2
   - role: gantsign.golang
   - role: arillso.ca_certificates
   - role: geerlingguy.docker
+
+  - collection:  community.docker
