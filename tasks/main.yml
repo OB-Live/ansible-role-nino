@@ -16,12 +16,12 @@
   vars:
     pipeIn: "{{ id_mask if masking is defined else id_json }}"
   when: pipeIn is not defined
-- include_tasks: mask
+- include_tasks: mask.yml
   vars:
     pipeIn: "{{ id_json }}"
     pipeOut: "{{ id_mask }}"
     masking: "{{ yaml_mask }}"
   when: masking is defined
-- include_tasks: pull
+- include_tasks: pull.yml
   vars:
     pipeOut: "{{ id_json }}"
