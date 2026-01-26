@@ -20,18 +20,18 @@
           - jq
           - diffutils
           - ca-certificates
-      state: present
+        state: present
       environment:
         DEBIAN_FRONTEND: noninteractive
 
 
-    #- name: Copy certificate to trusted store
-    #  become: true
-    #  ansible.builtin.copy:
-    #    src: cgi_zscaler_ca_root.crt
-    #    dest: /usr/local/share/ca-certificates/cgi_zscaler_ca_root.crt
-    #    mode: '0644'
-    #  notify: Update CA certificates
+    - name: Copy certificate to trusted store
+      become: true
+      ansible.builtin.copy:
+        src: cgi_zscaler_ca_root.crt
+        dest: /usr/local/share/ca-certificates/cgi_zscaler_ca_root.crt
+        mode: '0644'
+      notify: Update CA certificates
 
     - name: Ensure {{ install_dir }} directory exists
       become: true

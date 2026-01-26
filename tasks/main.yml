@@ -8,20 +8,22 @@
 
 # - include_tasks: "install.yml"
 - include_tasks: connect.yml
+
 - include_tasks: fifos.yml
   loop:
     - "{{ id_json }}"
     - "{{ id_mask }}"
+
 - include_tasks: push.yml
   vars:
-    pipeIn: "{{ id_mask if masking is defined else id_json }}"
+    pipeIn: "{{ id_mask if yaml_mask is defined else id_json }}"
 
 - include_tasks: mask.yml
   vars:
     pipeIn: "{{ id_json }}"
     pipeOut: "{{ id_mask }}"
     masking: "{{ yaml_mask }}"
-  when: masking is defined
+
 - include_tasks: pull.yml
   vars:
     pipeOut: "{{ id_json }}"

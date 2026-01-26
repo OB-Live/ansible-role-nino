@@ -8,19 +8,27 @@ NINO stands for Narrow Input, Narrow Output.  It is an Ansible role for LINO, PI
 - Find out more on the component's [Documentation]https://cgi-fr.github.io/lino-doc/
 - Try out the masking options [pimo-play](https://cgi-fr.github.io/pimo-play)
 
-## Install
-```sh 
-# install ansible
+## Install Ansible
+### Debian
+```bash
 sudo apt update -y
 sudo apt install git epel-release -y
 sudo apt install ansible -y
+```
+
+### RedHat
+```bash
+sudo dnf update -y
+sudo dnf install git epel-release -y
+sudo dnf install ansible -y
+```
 
 # ansible-galaxy role remove OB-Live.nino
+```bash
 ansible-galaxy role install OB-Live.nino
 ansible-galaxy collection install community.docker
 cd ~/.ansible/roles/OB-Live.nino/
 ansible-playbook installation.yml -K
-
 ```
 
 ## Run example - petstore
