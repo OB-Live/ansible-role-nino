@@ -36,6 +36,8 @@
 
     # Check connections and initialize FIFOs
     - include_role: { name: OB-Live.nino, tasks_from: connect }
+      vars:
+        workspace: "example/petstore"
 
     - include_role: { name: OB-Live.nino, tasks_from: fifos }
       loop:
@@ -45,15 +47,18 @@
 
     # Business logic here
     # Owners
-    - include_role: { name: OB-Live.nino, tasks_from: push } # declare push
+    # - include_role: { name: OB-Live.nino, tasks_from: push } # declare push
+    - include_tasks: "tasks/push.yml"
       vars:
         idName: "owners"
         pipeIn: "{{ fifo_owners }}"
 
-    - include_role: { name: OB-Live.nino, tasks_from: pull } # then pull
+    # - include_role: { name: OB-Live.nino, tasks_from: pull } # then pull
+    - include_tasks: "tasks/pull.yml"
       vars:
         idName: "owners"
         pipeOut: "{{ fifo_owners }}"
+        workspace: "example/petstore"
 
     # Pets
     - include_role: { name: OB-Live.nino, tasks_from: push }
@@ -61,7 +66,9 @@
         idName: "pets"
         pipeIn: "{{ fifo_pets_masking }}"
 
-    - include_role: { name: OB-Live.nino, tasks_from: mask }
+    # - include_role: { name: OB-Live.nino, tasks_from: mask }
+    - include_tasks: "tasks/mask.yml"
+
       vars:
         idName: "pets"
         pipeIn: "{{ fifo_pets }}"

@@ -6,7 +6,7 @@
     executable: /bin/bash
   register: pull_result
   vars:
-    descriptor: "{{ workspace }}/source/{{ idName }}-descriptor.yml"
+    descriptor: "{{ workspace }}/target/{{ idName }}-descriptor.yml"
 
 - name:  "Log - Pull : {{ idName }}"
   debug:
