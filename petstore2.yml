@@ -11,6 +11,9 @@
     workspace: "example/petstore"
     source_db: "postgresql://localhost:5432/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
     target_db: "postgresql://localhost:5433/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
+    id_json: "{{ fifos_dir }}/{{ idName }}.jsonl"
+    id_mask: "{{ fifos_dir }}/{{ idName }}-masked.jsonl"
+    yaml_mask: "{{ workspace }}/target/{{ idName }}-masking.yml"
 
   pre_tasks:
     - name: Deploy example's stack with Docker Compose
@@ -33,7 +36,8 @@
   roles:
     - name: OB-Live.nino
       vars:
-        idName: "owners"
+        idName: "owners" 
+        
     
     - name: OB-Live.nino
       vars:

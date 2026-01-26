@@ -1,29 +1,27 @@
 ---
 # tasks file for nino
-- name: exec lino pipeline for {{ idName }}
+# - name: exec lino pipeline for {{ idName }}
+#   vars:
+#     id_json: "{{ fifos_dir }}/{{ idName }}.jsonl"
+#     id_mask: "{{ fifos_dir }}/{{ idName }}-masked.jsonl"
+#     yaml_mask: "{{ workspace }}/target/{{ idName }}-masking.yml"
+
+- name: install
+- name: connect
+- name: fifos
+  loop:
+    - "{{ id_json }}"
+    - "{{ id_mask }}"
+- name: push
   vars:
-    id_json: "{{ fifos_dir }}/{{ idName }}.jsonl"
-    id_mask: "{{ fifos_dir }}/{{ idName }}-masked.jsonl"
-    yaml_mask: "{{ workspace }}/target/{{ idName }}-masking.yml"
-
-
-  include_tasks:
-    - name: install
-    - name: connect
-    - name: fifos
-      loop:
-        - "{{ id_json }}"
-        - "{{ id_mask }}"
-    - name: push
-      vars:
-        pipeIn: "{{ id_mask if masking is defined else id_json }}"
-      when: pipeIn is not defined
-    - name: mask
-      vars:
-        pipeIn: "{{ id_json }}"
-        pipeOut: "{{ id_mask }}"
-        masking: "{{ yaml_mask }}"
-      when: masking is defined
-    - name: pull
-      vars:
-        pipeOut: "{{ id_json }}"
+    pipeIn: "{{ id_mask if masking is defined else id_json }}"
+  when: pipeIn is not defined
+- name: mask
+  vars:
+    pipeIn: "{{ id_json }}"
+    pipeOut: "{{ id_mask }}"
+    masking: "{{ yaml_mask }}"
+  when: masking is defined
+- name: pull
+  vars:
+    pipeOut: "{{ id_json }}"
