@@ -2,13 +2,16 @@
 - name: LINO Petstore Example
   hosts: localhost
   connection: local
-  gather_facts: false
+  become: true
+  gather_facts: true
   environment:
     PATH: "{{ ansible_env.PATH }}:{{ install_dir }}"
     ADMIN: admin
   vars:
     #  Business variables
     workspace: "example/petstore"
+    golang_download_dir: "/tmp/"
+
     source_db: "postgresql://localhost:5432/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
     target_db: "postgresql://localhost:5433/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
     id_json: "{{ fifos_dir }}/{{ idName }}.jsonl"
@@ -37,7 +40,7 @@
     - name: OB-Live.nino
       vars:
         idName: "owners" 
-        
+
     
     - name: OB-Live.nino
       vars:

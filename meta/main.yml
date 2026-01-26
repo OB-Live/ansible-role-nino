@@ -1,7 +1,7 @@
 galaxy_info:
   author: Olivier Bertrand
   description: narrow input narrow output
-  license: MIT
+  license: GNU GPLv3
   min_ansible_version: 2.1
 
   galaxy_tags:
@@ -17,5 +17,10 @@ galaxy_info:
 dependencies:
   # - role: community.docker.docker_compose_v2
   - role: gantsign.golang
+    vars:
+      golang_mirror: "https://go.dev/dl"
+      golang_download_dir: "/tmp"
+      golang_version: '1.24.2'
   - role: arillso.ca_certificates
   - role: geerlingguy.docker
+

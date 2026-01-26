@@ -10,15 +10,16 @@ NINO stands for Narrow Input, Narrow Output.  It is an Ansible role for LINO, PI
 
 ## Install
 ```sh 
-
+# install ansible
 sudo apt update -y
 sudo apt install git epel-release -y
 sudo apt install ansible -y
 
 # ansible-galaxy role remove OB-Live.nino
-ansible-galaxy role install OB-Live.nino arillso.ca_certificates gantsign.golang geerlingguy.docker
-ansible-galaxy role install -r requirements.yml
-ansible-playbook ~/.ansible/roles/OB-Live.nino/installation.yml -K
+ansible-galaxy role install OB-Live.nino
+ansible-galaxy collection install community.docker
+cd ~/.ansible/roles/OB-Live.nino/
+ansible-playbook installation.yml -K
 
 ```
 

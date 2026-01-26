@@ -15,7 +15,7 @@
     - name: Install prerequisite packages
       become: true
       ansible.builtin.package:
-      name:
+        name:
           - curl
           - jq
           - diffutils
