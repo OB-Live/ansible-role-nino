@@ -7,11 +7,11 @@
   loop: "{{ entities }}"
   loop_control:
     loop_var: entity
-    loop_vars: 
-      idName: "{{ entity.name }}"
-      id_json: "{{ entity.id_json }}"
-      id_mask: "{{ entity.id_mask if entity.id_mask is defined else '' }}" 
-      yaml_mask: "{{ entity.yaml_mask if entity.yaml_mask is defined else '' }}"
+  vars: 
+    idName: "{{ entity.name }}"
+    id_json: "{{ entity.id_json }}"
+    id_mask: "{{ entity.id_mask if entity.id_mask is defined else '' }}" 
+    yaml_mask: "{{ entity.yaml_mask if entity.yaml_mask is defined else '' }}"
 
 # Post processing
 - include_tasks: diff.yml
