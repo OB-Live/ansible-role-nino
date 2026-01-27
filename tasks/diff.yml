@@ -15,7 +15,7 @@
           diff -y "{{ item.path }}" "$TARGET_FILE"  | grep -B 5  '|' >> diff.log 
         fi
       loop: "{{ found_source_files.files }}"
-      register: diff_results
+      # register: diff_results
       changed_when: false
       failed_when: false # Prevent play from stopping if diff finds differences
 

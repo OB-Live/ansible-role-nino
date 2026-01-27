@@ -1,10 +1,10 @@
 ---
 # Cleanup and report  
-- name: Check if the long-running job is done and cleanup
-  ansible.builtin.async_status:
-    jid: "{{ async_job_result.ansible_job_id }}"
-    mode: cleanup
-  ignore_errors: true
+# - name: Check if the long-running job is done and cleanup
+#   ansible.builtin.async_status:
+#     jid: "{{ async_job_result.ansible_job_id }}"
+#     mode: cleanup
+#   ignore_errors: true
 
 - name: Stop all running Lino processes
   ansible.builtin.shell: "pkill -f 'lino *'"
