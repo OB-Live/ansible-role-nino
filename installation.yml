@@ -8,11 +8,17 @@
     golang_mirror: "https://go.dev/dl"
     install_dir: "/usr/lino"
 
-  roles:
+  roles: 
     - role: arillso.ca_certificates
       ignore_errors: true
+
     - role: gantsign.golang
+      vars:
+        golang_mirror: "https://go.dev/dl"
+        golang_download_dir: "/tmp"
+        golang_version: '1.24.2'
       ignore_errors: true
+      
     - role: geerlingguy.docker
       ignore_errors: true
 

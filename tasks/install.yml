@@ -10,7 +10,7 @@
 
 
 - name: Installation and Configuration Block
-  when: "{{ lino_version }} not in lino_check.stdout"
+  when: "lino_version not in lino_check.stdout"
   block:
     - name: Install prerequisite packages
       become: true

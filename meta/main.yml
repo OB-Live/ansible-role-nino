@@ -16,11 +16,11 @@ galaxy_info:
 
 dependencies:
   # - role: community.docker.docker_compose_v2
-  - role: gantsign.golang
-    vars:
-      golang_mirror: "https://go.dev/dl"
-      golang_download_dir: "/tmp"
-      golang_version: '1.24.2'
-  - role: arillso.ca_certificates
-  - role: geerlingguy.docker
+  # - role: gantsign.golang
+  #   vars:
+  #     golang_mirror: "https://go.dev/dl"
+  #     golang_download_dir: "/tmp"
+  #     golang_version: '1.24.2'
+  # - role: arillso.ca_certificates
+  # - role: geerlingguy.docker
 
