@@ -9,3 +9,4 @@ tables.yaml
 ingress-descriptor.dot
 dataconnector.yaml
 nohup.out
+exec.log

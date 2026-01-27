@@ -1,9 +1,13 @@
 ---
 - name: Clear the named pipes {{ item }}
-  command: rm -f {{ item }}
+  command: | 
+    echo  "rm -f {{ item }} " > exec.log 
+    rm -f {{ item }}
   ignore_errors: true
 
 - name: Create the named pipe {{ item }}
-  command: mkfifo --m 666 {{ item }}
+  command: |
+    echo  "mkfifo --m 666 {{ item }} " > exec.log 
+    mkfifo --m 666 {{ item }}
   args:
     creates: "{{ item }}"
