@@ -7,5 +7,5 @@
 
 - name: Stop all running Lino processes
   ansible.builtin.shell: "pkill -f 'lino *'"
-  become: true
+  # become: true
   failed_when: false # Don't fail if no process is found

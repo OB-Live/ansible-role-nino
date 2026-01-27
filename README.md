@@ -23,8 +23,9 @@ sudo dnf install git epel-release -y
 sudo dnf install ansible -y
 ```
 
-# ansible-galaxy role remove OB-Live.nino
+### Install nino, its dependencies 
 ```bash
+# ansible-galaxy role remove OB-Live.nino
 ansible-galaxy role install OB-Live.nino
 ansible-galaxy collection install community.docker
 cd ~/.ansible/roles/OB-Live.nino/
@@ -54,12 +55,15 @@ relations: "{{ workspace }}/relations.yml"
 
 # Dependencies 
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+```yaml
+- name: gantsign.golang 
+- name: arillso.ca_certificates 
+- name: geerlingguy.docker 
+```
 
 # Example Playbook : petstore
 
-```yml
----
+```yml 
 - name: LINO Petstore Example
   hosts: localhost
   connection: local

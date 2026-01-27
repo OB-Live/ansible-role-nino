@@ -1,32 +1,19 @@
 ---
-# tasks file for nino
-# - name: exec lino pipeline for {{ idName }}
-#   vars:
-#     id_json: "{{ fifos_dir }}/{{ idName }}.jsonl"
-#     id_mask: "{{ fifos_dir }}/{{ idName }}-masked.jsonl"
-#     yaml_mask: "{{ workspace }}/target/{{ idName }}-masking.yml"
 
-# - include_tasks: "install.yml"
 - include_tasks: connect.yml
 
-- include_tasks: fifos.yml
-  loop:
-    - "{{ id_json }}"
-    - "{{ id_mask }}"
+- name: Iterate over entities
+  include_tasks: pipeline.yml
+  loop: "{{ entities }}"
+  loop_control:
+    loop_var: entity
+  vars: 
+    idName: "{{ entity.name }}"
+    id_json: "{{ entity.id_json }}"
+    id_mask: "{{ entity.id_mask }}" 
+    yaml_mask: "{{ entity.yaml_mask }}"
 
-- include_tasks: push.yml
-  vars:
-    pipeIn: "{{ id_mask if yaml_mask is defined else id_json }}"
+# Post processing
+- include_tasks: diff.yml
 
-- include_tasks: mask.yml
-  vars:
-    pipeIn: "{{ id_json }}"
-    pipeOut: "{{ id_mask }}"
-    masking: "{{ yaml_mask }}"
-
-- include_tasks: pull.yml
-  vars:
-    pipeOut: "{{ id_json }}"
-    descriptor: "{{ workspace }}/target/{{ idName }}-descriptor.yml"
-
-
+- include_tasks: cleanup.yml

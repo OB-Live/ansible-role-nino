@@ -2,16 +2,15 @@
 - name: LINO Petstore Example
   hosts: localhost
   connection: local
-  become: true
+  become: false
   gather_facts: true
   environment:
     PATH: "{{ ansible_env.PATH }}:{{ install_dir }}"
     ADMIN: admin
   vars:
     #  Business variables
-    workspace: "example/petstore"
-    # golang_download_dir: "/tmp/"
-    fifos_dir: "/tmp/lino"
+    workspace: "example/petstore" 
+    # fifos_dir: "/tmp/lino"
     source_db: "postgresql://localhost:5432/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
     target_db: "postgresql://localhost:5433/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
     id_json: "{{ fifos_dir }}/{{ idName }}.jsonl"
@@ -24,7 +23,7 @@
       community.docker.docker_compose_v2:
         project_src: "{{ workspace }}"
         files:
-          - docker-compose.yml  # You can stack multiple files
+          - docker-compose.yml 
         state: present
         wait: true                   
         # build: never                 
@@ -39,12 +38,11 @@
   roles:
     - name: OB-Live.nino
       vars:
-        idName: "owners" 
+        entities:
+          - name: "owners"
 
-    - name: OB-Live.nino
-      vars:
-        idName: "pets" 
-        id_json: "{{ fifos_dir }}/pets.jsonl"                         # Optional
-        id_mask: "{{ fifos_dir }}/pets-masked.jsonl"                  # Optional 
-        yaml_mask: "{{ workspace }}/target/{{ idName }}-masking.yml"  # Optional
- 
+          - name: "pets"
+            yaml_mask: "{{ workspace }}/target/{{ id.name }}-masking.yml"  # Required
+            # id_json: "{{ fifos_dir }}/{{ idName }}.jsonl"         # Optional
+            # id_mask: "{{ fifos_dir }}/{{ idName }}-masked.jsonl"  # Optional 
+             

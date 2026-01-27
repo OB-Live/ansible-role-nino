@@ -1,4 +1,5 @@
 - name: Compare source and target files
+  ignore_errors: true
   block:
     - name: Find all files in source directory
       find:
@@ -22,3 +23,12 @@
         msg: "{{ item.stdout }}"
       loop: "{{ diff_results.results }}"
       when: item.stdout != ""
+
+- name: Read exec.log content
+  ansible.builtin.command: cat exec.log
+  register: log_content
+  changed_when: false
+
+- name: Display exec.log output
+  ansible.builtin.debug:
+    var: log_content.stdout_lines

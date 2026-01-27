@@ -11,6 +11,7 @@
     state: present
   environment:
     DEBIAN_FRONTEND: noninteractive
+
 - name: Copy certificate to trusted store
   become: true
   ansible.builtin.copy:
@@ -29,7 +30,7 @@
 
 
 - name: Installation and Configuration Block
-  # when: "lino_version not in lino_check.stdout"
+  when: "lino_version not in lino_check.stdout"
   block:
 
     - name: Ensure {{ install_dir }} directory exists
