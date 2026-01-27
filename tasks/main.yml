@@ -27,5 +27,5 @@
 # Post processing
 - include_tasks: diff.yml
 
-- include_tasks: cleanup.yml
-  ignore_errors: true
+# - include_tasks: cleanup.yml
+#   ignore_errors: true

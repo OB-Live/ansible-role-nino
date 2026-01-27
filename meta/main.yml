@@ -14,7 +14,7 @@ galaxy_info:
     #       Maximum 20 tags per role.
 
 
-dependencies:
+# dependencies:
   # - role: community.docker.docker_compose_v2
   # - role: gantsign.golang
   #   vars:

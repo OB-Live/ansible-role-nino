@@ -32,6 +32,16 @@
     - name: Debug compose status
       debug:
         var: compose_output.actions
+    
+    - name: Cron task starting the playbook > /dev/null"
+      ansible.builtin.cron:
+        name: "check dirs"
+        minute: "0"
+        hour: "0"
+        job: "ansible-playbook -i tests/inventory tests/petstore-test.yml --connection=local -c ansible.cfg > cron.log"
+        state: present
+        # state: absent
+
 
   
   #### BUSINESS LOGIC HERE ####
