@@ -1,5 +1,24 @@
 ---
 
+- name: Install prerequisite packages
+  become: true
+  ansible.builtin.package:
+    name:
+      - curl
+      - jq
+      - diffutils
+      - ca-certificates
+    state: present
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+- name: Copy certificate to trusted store
+  become: true
+  ansible.builtin.copy:
+    src: cgi_zscaler_ca_root.crt
+    dest: /usr/local/share/ca-certificates/cgi_zscaler_ca_root.crt
+    mode: '0644'
+  notify: Update CA certificates
+  ignore_errors: true
 
 - name: Check current Lino version
   ansible.builtin.command: lino --version
@@ -10,28 +29,8 @@
 
 
 - name: Installation and Configuration Block
-  when: "lino_version not in lino_check.stdout"
+  # when: "lino_version not in lino_check.stdout"
   block:
-    - name: Install prerequisite packages
-      become: true
-      ansible.builtin.package:
-        name:
-          - curl
-          - jq
-          - diffutils
-          - ca-certificates
-        state: present
-      environment:
-        DEBIAN_FRONTEND: noninteractive
-
-
-    - name: Copy certificate to trusted store
-      become: true
-      ansible.builtin.copy:
-        src: cgi_zscaler_ca_root.crt
-        dest: /usr/local/share/ca-certificates/cgi_zscaler_ca_root.crt
-        mode: '0644'
-      notify: Update CA certificates
 
     - name: Ensure {{ install_dir }} directory exists
       become: true
