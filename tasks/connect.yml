@@ -9,7 +9,7 @@
     lino dc ping source &>> exec.log
     lino table extract source &>> exec.log
     lino relation extract source &>> exec.log
-    lino analyze source {{ workspace }}/source/analyze.yml
+    lino analyze source > {{ workspace }}/source/analyze.yml
   args:
     executable: /bin/bash
   register: connectsrc_result
