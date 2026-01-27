@@ -46,6 +46,12 @@
         path: "{{ workspace }}"
         state: directory
         mode: '0755'
+    
+    - name: "Create {{ fifos_dir }} folder with 777 permissions"
+      ansible.builtin.file:
+        path: {{ fifos_dir }}
+        state: directory
+        mode: '0777'
 
     - block: 
       - name: Download LINO components to cache (idempotent)

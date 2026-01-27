@@ -7,11 +7,11 @@ workspace: "business"
 lino_version: "3.6.1"
 pimo_version: "1.31.3"
 sigo_version: "0.4.0"
+mimo_version: "0.8.0"
 
 # install variables 
-
 install_dir: "/usr/lino"
-fifos_dir: "/tmp"
+fifos_dir: "/tmp/lino"
 tables: "{{workspace}}/tables.yml"
 relations: "{{workspace}}/relations.yml"
 
@@ -29,6 +29,10 @@ lino_components:
   - name: SIGO
     url: "https://github.com/CGI-FR/SIGO/releases/download/v{{ sigo_version }}/SIGO_{{ sigo_version }}_linux_amd64.tar.gz"
     creates: "{{ install_dir }}/sigo"
+  - name: MIMO
+    url: "https://github.com/CGI-FR/MIMO/releases/download/v{{ mimo_version }}/MIMO_{{ mimo_version }}_linux_amd64.tar.gz"
+    creates: "{{ install_dir }}/mimo"
+
 
 ca_certificates_files: 
   - name: cgi_zscaler_ca_root

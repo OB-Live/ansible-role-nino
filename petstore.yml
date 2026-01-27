@@ -9,12 +9,12 @@
   vars:
     #  Business variables
     workspace: "example/petstore"
-    golang_download_dir: /tmp
+    # golang_download_dir: /tmp
     source_db: "postgresql://localhost:5432/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
     target_db: "postgresql://localhost:5433/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
 
     ### fifo files
-    fifos_dir: "/tmp"
+    fifos_dir: "/tmp/lino"
     fifo_pets: "{{ fifos_dir }}/pets.jsonl"
     fifo_owners: "{{ fifos_dir }}/owners.jsonl"
     fifo_pets_masking: "{{ fifos_dir }}/pets-masking.jsonl"

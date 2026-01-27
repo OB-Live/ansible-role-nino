@@ -11,7 +11,7 @@
     #  Business variables
     workspace: "example/petstore"
     # golang_download_dir: "/tmp/"
-    fifos_dir: "/tmp"
+    fifos_dir: "/tmp/lino"
     source_db: "postgresql://localhost:5432/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
     target_db: "postgresql://localhost:5433/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
     id_json: "{{ fifos_dir }}/{{ idName }}.jsonl"
