@@ -10,19 +10,23 @@
     - name: Diff source against target if target file exists
       shell: |
         TARGET_FILE="{{ workspace }}/target/{{ item.path | basename }}"
+        echo $TARGET_FILE >> diff.log
         if [ -f "$TARGET_FILE" ]; then
-          diff -u "{{ item.path }}" "$TARGET_FILE"
+          diff -y "{{ item.path }}" "$TARGET_FILE"  | grep -B 5  '|' >> diff.log 
         fi
       loop: "{{ found_source_files.files }}"
       register: diff_results
       changed_when: false
       failed_when: false # Prevent play from stopping if diff finds differences
 
-    - name: Print the diff results
-      debug:
-        msg: "{{ item.stdout }}"
-      loop: "{{ diff_results.results }}"
-      when: item.stdout != ""
+    - name: Read diff.log
+      ansible.builtin.command: cat exec.log
+      register: diff_content
+      changed_when: false
+
+    - name: Display diff.log 
+      ansible.builtin.debug:
+        var: diff_content.stdout_lines
 
 - name: Read exec.log content
   ansible.builtin.command: cat exec.log
