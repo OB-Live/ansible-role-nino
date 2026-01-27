@@ -1,8 +1,11 @@
 # .github/workflows/ansible-lint.yml
 name: ansible-lint
-on:
+ 
+on: 
+  push:
+    branches: [ "main" ]
   pull_request:
-    branches: ["main", "stable", "release/v*"]
+    branches: [ "main" ]
 jobs:
   build:
     name: Ansible Lint # Naming the build is important to use it as a status check
@@ -17,5 +20,5 @@ jobs:
           gh_action_ref: "<version - e.g. `v25.5.0`>" # Not recommended for non-composite action use
           setup_python: "true"
           python_version: "3.14"
-          working_directory: ""
-          requirements_file: ""
+          working_directory: "tests"
+          requirements_file: "requirements.yml"
