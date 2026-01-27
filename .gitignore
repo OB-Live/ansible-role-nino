@@ -10,3 +10,4 @@ ingress-descriptor.dot
 dataconnector.yaml
 nohup.out
 exec.log
+example/petstore/source/analyze.yml
