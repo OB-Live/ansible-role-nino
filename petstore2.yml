@@ -16,7 +16,7 @@
     target_db: "postgresql://localhost:5433/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
     id_json: "{{ fifos_dir }}/{{ idName }}.jsonl"
     id_mask: "{{ fifos_dir }}/{{ idName }}-masked.jsonl"
-    yaml_mask: "{{ workspace }}/target/{{ idName }}-masking.yml"
+    # yaml_mask: "{{ workspace }}/target/{{ idName }}-masking.yml"
 
   pre_tasks:
     - name: Deploy example's stack with Docker Compose

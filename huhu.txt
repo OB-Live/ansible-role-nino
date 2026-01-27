@@ -1,1 +1,0 @@
-lino pull source -l 10 -i example/petstore/target/owners-descriptor.yml > /tmp/owners.jsonl
