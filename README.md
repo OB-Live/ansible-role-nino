@@ -1,29 +1,52 @@
 # NINO 
 
-NINO stands for Narrow Input, Narrow Output.  It is an Ansible role for LINO, PIMO, SIGO and is a ETL dedicated to data masking and anonymisation 
+This Ansible role NINO (Narrow Input, Narrow Output) is an ETL dedicated to data masking and anonymisation using LINO, PIMO, SIGO, and MIMO 
 
+# Example playbook petstore
+
+```yml 
+  roles:
+    - name: OB-Live.nino 
+      vars:
+        entities:
+          - name: "owners"
+            id_json: "owners.jsonl"
+          - name: "pets"
+            id_json: "pets.jsonl"
+            id_mask: "pets-masking.jsonl"
+            yaml_mask: "target/pets-masking.yml" 
+```
 
 # Documentation 
 
-- Find out more on the component's [Documentation]https://cgi-fr.github.io/lino-doc/
-- Try out the masking options [pimo-play](https://cgi-fr.github.io/pimo-play)
+This role install the following software
 
-## Install Ansible
-### Debian
+- https://github.com/CGI-FR/LINO
+- https://github.com/CGI-FR/PIMO
+- https://github.com/CGI-FR/SIGO
+- https://github.com/CGI-FR/MIMO
+- https://github.com/CGI-FR/pimo-play
+
+Try out the masking options [pimo-play](https://cgi-fr.github.io/pimo-play)
+
+Find out more on the component's [Documentation](https://cgi-fr.github.io/lino-doc/)
+
+# Install 
+### ansible on Debian
 ```bash
 sudo apt update -y
 sudo apt install git epel-release -y
 sudo apt install ansible -y
 ```
 
-### RedHat
+### ansible on RedHat
 ```bash
 sudo dnf update -y
 sudo dnf install git epel-release -y
 sudo dnf install ansible -y
 ```
 
-### Install nino, its dependencies 
+### NINO and its dependencies 
 ```bash
 # ansible-galaxy role remove OB-Live.nino
 ansible-galaxy role install OB-Live.nino
@@ -32,9 +55,9 @@ cd ~/.ansible/roles/OB-Live.nino/
 ansible-playbook installation.yml -K
 ```
 
-## Run example - petstore
+### Run test example - petstore
 ```sh 
-ansible-playbook ~/.ansible/roles/OB-Live.nino/petstore.yml
+ansible-playbook -i tests/inventory tests/petstore-test.yml --connection=local -c ansible.cfg
 ```
 
 # Role Variables 
@@ -44,10 +67,12 @@ ansible-playbook ~/.ansible/roles/OB-Live.nino/petstore.yml
 lino_version: "3.6.1"
 pimo_version: "1.31.3"
 sigo_version: "0.4.0"
+mimo_version: "0.8.0"
 
 # install variables 
 workspace: "business"
 install_dir: "/usr/lino"
+fifos_dir: "/tmp/lino"
 tables: "{{ workspace }}/tables.yml"
 relations: "{{ workspace }}/relations.yml"
 
@@ -61,81 +86,13 @@ relations: "{{ workspace }}/relations.yml"
 - name: geerlingguy.docker 
 ```
 
-# Example Playbook : petstore
-
-```yml 
-- name: LINO Petstore Example
-  hosts: localhost
-  connection: local
-  gather_facts: false
-  vars:
-    #  Business variables
-    workspace: "example/petstore"
-    source_db: "postgresql://localhost:5432/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
-    target_db: "postgresql://localhost:5433/jhpetclinic?sslmode=disable -P ADMIN -u jhpetclinic"
-
-    ### fifo files
-    fifo_pets: "/tmp/pets.jsonl"
-    fifo_owners: "/tmp/owners.jsonl"
-    fifo_pets_masking: "/tmp/pets-masking.jsonl"
-
-  tasks:
-    - include_role:
-        name: OB-Live.nino
-        tasks_from: install
-
-    - include_role:
-        name: OB-Live.nino
-        tasks_from: connect
-
-    - include_role:
-        name: OB-Live.nino
-        tasks_from: fifos
-      loop:
-        - "{{ fifo_pets_masking }}"
-        - "{{ fifo_pets }}"
-        - "{{ fifo_owners }}"
-
-    # Owners
-    - include_role:
-        name: OB-Live.nino
-        tasks_from: push
-      vars:
-        idName: "owners"
-        pipeIn: "{{ fifo_owners }}"
-
-    - include_role:
-        name: OB-Live.nino
-        tasks_from: pull
-      vars:
-        idName: "owners"
-        pipeOut: "{{ fifo_owners }}"
-
-    # Pets
-    - include_role:
-        name: OB-Live.nino
-        tasks_from: push
-      vars:
-        idName: "pets"
-        pipeIn: "{{ fifo_pets }}"
-
-    - include_role:
-        name: OB-Live.nino
-        tasks_from: pull
-      vars:
-        idName: "pets"
-        pipeOut: "{{ fifo_pets }}"
-```
 
 # License 
 
-BSD
+GNU GPLv3
 
 # Author Information 
 
-Please check the underlying software
+[https://github.com/OB-Live](https://github.com/OB-Live)
 
-- https://github.com/CGI-FR/LINO
-- https://github.com/CGI-FR/PIMO
-- https://github.com/CGI-FR/SIGO
 

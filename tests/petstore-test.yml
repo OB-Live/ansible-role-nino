@@ -39,8 +39,8 @@
         minute: "0"
         hour: "0"
         job: "ansible-playbook -i tests/inventory tests/petstore-test.yml --connection=local -c ansible.cfg > cron.log"
-        state: present
-        # state: absent
+        # state: present
+        state: absent
 
 
   

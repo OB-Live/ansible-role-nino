@@ -21,12 +21,12 @@
 
     - name: Read diff.log
       ansible.builtin.command: cat diff.log
-      register: diff_content
+      # register: diff_content
       changed_when: false
 
-    - name: Display diff.log 
-      ansible.builtin.debug:
-        var: diff_content.stdout_lines
+    # - name: Display diff.log 
+    #   ansible.builtin.debug:
+    #     var: diff_content.stdout_lines
 
 - name: Read exec.log content
   ansible.builtin.command: cat exec.log
