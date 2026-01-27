@@ -3,7 +3,7 @@
 
 - name: "PIMO Masking : {{ idName }}"
   shell: | 
-    echo "nohup pimo -c {{ masking }} < {{ pipeIn }} > {{ pipeOut }} 2>&1 & " >> exec.log
+    echo "$ nohup pimo -c {{ masking }} < {{ pipeIn }} > {{ pipeOut }} 2>&1 & " >> exec.log
     nohup pimo -c {{ masking }} < {{ pipeIn }} > {{ pipeOut }} 2>&1 & 
     echo $! >> exec.log
   args:

@@ -2,10 +2,12 @@
 
 - name: "Init logs"
   shell: | 
-    echo "========= NNO Exec Log ========= " > exec.log
-    echo "=========               ========= " >> exec.log
-    echo "====== $(date '+%d/%m/%Y %H:%M:%S') ====== " >> exec.log
-    echo "========= ============= ========= " >> exec.log
+    echo "============ NĬNO Exec Log ============ " > exec.log
+    echo "=                                     = " >> exec.log
+    echo "==== from {{ source_db }} " >> exec.log
+    echo "====== to  {{ target_db }} " >> exec.log
+    echo "====== at $(date '+%d/%m/%Y %H:%M:%S')  " >> exec.log
+    echo "=                                     = " >> exec.log
   args:
     executable: /bin/bash
 

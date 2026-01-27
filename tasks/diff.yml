@@ -20,7 +20,7 @@
       failed_when: false # Prevent play from stopping if diff finds differences
 
     - name: Read diff.log
-      ansible.builtin.command: cat exec.log
+      ansible.builtin.command: cat diff.log
       register: diff_content
       changed_when: false
 

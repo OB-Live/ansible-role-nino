@@ -5,10 +5,19 @@
 
 - name: "LINO Connect source : {{ source_db }}"
   shell: |
+    echo "$ lino dc add source {{ source_db }}" >> exec.log
     lino dc add source {{ source_db }} &>> exec.log
+
+    echo "$ lino dc ping source" >> exec.log
     lino dc ping source &>> exec.log
+
+    echo "$ lino table extract source" >> exec.log
     lino table extract source &>> exec.log
+
+    echo "$ lino relation extract source" >> exec.log
     lino relation extract source &>> exec.log
+
+    echo "$ lino analyse source > {{ workspace }}/source/analyze.yml" >> exec.log
     lino analyse source > {{ workspace }}/source/analyze.yml
   args:
     executable: /bin/bash
@@ -16,8 +25,11 @@
 
 - name: "LINO Connect target : {{ target_db }}"
   shell: |
+    echo "$ lino dc add target {{ target_db }}" >> exec.log
     lino dc add target {{ target_db }} &>> exec.log
-    lino dc ping target >> exec.log
+
+    echo "$ lino dc ping target" >> exec.log
+    lino dc ping target &>> exec.log
   args:
     executable: /bin/bash
   register: connecttgt_result
@@ -25,7 +37,10 @@
 - block:
   - name: "Extract metadata"
     shell: |
+      echo "$ lino id create {{ item }} -i {{ descriptor }}" >> exec.log
       lino id create {{ item }} -i {{ descriptor }} &>> exec.log
+
+      echo "$ lino id display-plan -i {{ descriptor }}" >> exec.log
       lino id display-plan -i {{ descriptor }} &>> exec.log
     args:
       executable: /bin/bash

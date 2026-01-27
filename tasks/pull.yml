@@ -1,7 +1,7 @@
 ---
 - name: "Execute LINO Pull : {{ idName }}"
   shell: |
-    echo "lino pull source -l 10 -i {{ descriptor }} > {{ pipeOut }}" &>> exec.log
+    echo "$ lino pull source -l 10 -i {{ descriptor }} > {{ pipeOut }}" &>> exec.log
     lino pull source -l 10 -i {{ descriptor }} > {{ pipeOut }}
   args:
     executable: /bin/bash
