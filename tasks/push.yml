@@ -1,7 +1,7 @@
 ---
 - name: "Declare LINO Push : {{ idName }}"
   shell: |
-    echo "nohup lino push target -v5 -i {{ descriptor }} < {{ pipeIn }} 2>&1 & "" 
+    echo "nohup lino push target -v5 -i {{ descriptor }} < {{ pipeIn }} 2>&1 & "
     nohup lino push target -v5 -i {{ descriptor }} < {{ pipeIn }} 2>&1 &
     echo $! >> exec.log
   args:
