@@ -13,6 +13,13 @@
 
 - include_tasks: connect.yml
 
+- include_tasks: truncate.yml
+  loop: "{{ entities }}"
+  loop_control:
+    loop_var: entity
+  vars: 
+    idName: "{{ entity.name }}"
+
 - name: Iterate over entities
   include_tasks: pipeline.yml
   loop: "{{ entities }}"

@@ -12,15 +12,8 @@ mimo_version: "0.8.0"
 # install variables 
 install_dir: "/usr/lino"
 fifos_dir: "/tmp/lino"
-tables: "{{workspace}}/tables.yml"
-relations: "{{workspace}}/relations.yml"
-id_json: "{{ fifos_dir }}/{{ idName }}.jsonl"
-id_mask: "{{ fifos_dir }}/{{ idName }}-masked.jsonl"
-
-# business case variables
-# source_db: "postgresql://localhost:5432/jhpetclinic?sslmode=disable"
-# target_db: "postgresql://localhost:5433/jhpetclinic?sslmode=disable"
-
+# tables: "{{workspace}}/tables.yml"
+# relations: "{{workspace}}/relations.yml"
 lino_components:
   - name: LINO
     url: "https://github.com/CGI-FR/LINO/releases/download/v{{ lino_version }}/LINO_{{ lino_version }}_linux_amd64.tar.gz"
@@ -35,6 +28,12 @@ lino_components:
     url: "https://github.com/CGI-FR/MIMO/releases/download/v{{ mimo_version }}/MIMO_{{ mimo_version }}_linux_amd64.tar.gz"
     creates: "{{ install_dir }}/mimo"
 
+# Business defaults 
+
+id_json: "{{ fifos_dir }}/{{ idName }}.jsonl"
+id_mask: "{{ fifos_dir }}/{{ idName }}-masked.jsonl"  
+
+truncate_target: false  
 
 ca_certificates_files: 
   - name: cgi_zscaler_ca_root

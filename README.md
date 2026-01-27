@@ -50,9 +50,8 @@ sudo dnf install ansible -y
 ```bash
 # ansible-galaxy role remove OB-Live.nino
 ansible-galaxy role install OB-Live.nino
-ansible-galaxy collection install community.docker
-cd ~/.ansible/roles/OB-Live.nino/
-ansible-playbook installation.yml -K
+ansible-galaxy collection install community.docker 
+ansible-playbook ~/.ansible/roles/OB-Live.nino/installation.yml -K
 ```
 
 ### Run test example - petstore
@@ -72,9 +71,7 @@ mimo_version: "0.8.0"
 # install variables 
 workspace: "business"
 install_dir: "/usr/lino"
-fifos_dir: "/tmp/lino"
-tables: "{{ workspace }}/tables.yml"
-relations: "{{ workspace }}/relations.yml"
+fifos_dir: "/tmp/lino" 
 
 ```
 
