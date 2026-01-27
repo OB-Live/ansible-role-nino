@@ -4,11 +4,17 @@
     - "{{ id_json }}"
     - "{{ id_mask }}"
 
+- name: Check that the {{ idName }}-masking.yml exists
+  stat:
+    path: "{{ workspace }}/target/{{ idName }}-masking.yml"
+  register: masking_file
+
 - include_tasks: push.yml
   vars:
-    pipeIn: "{{ id_mask if yaml_mask is defined else id_json }}"
+    pipeIn: "{{ id_mask if masking_file.stat.exists else id_json }}"
 
 - include_tasks: mask.yml
+  when: masking_file.stat.exists
   vars:
     pipeIn: "{{ id_json }}"
     pipeOut: "{{ id_mask }}"

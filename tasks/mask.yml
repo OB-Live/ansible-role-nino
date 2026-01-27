@@ -1,13 +1,11 @@
 ---
-- name: Check that the {{ idName }}-masking.yml exists
-  stat:
-    path: "{{ workspace }}/target/{{ idName }}-masking.yml"
-  register: masking_file
+ 
 
 - name: "PIMO Masking : {{ idName }}"
   shell: | 
-    echo "nohup pimo -c {{ masking }} < {{ pipeIn }} > {{ pipeOut }} 2>&1 & echo $! >> exec.log" >> exec.log
-    nohup pimo -c {{ masking }} < {{ pipeIn }} > {{ pipeOut }} 2>&1 & echo $! >> exec.log
+    echo "nohup pimo -c {{ masking }} < {{ pipeIn }} > {{ pipeOut }} 2>&1 & " >> exec.log
+    nohup pimo -c {{ masking }} < {{ pipeIn }} > {{ pipeOut }} 2>&1 & 
+    echo $! >> exec.log
   args:
     executable: /bin/bash
   register: mask_result
@@ -17,9 +15,9 @@
     pipeOut: "{{ fifos_dir }}/{{ idName }}-masking.jsonl"
   when: masking_file.stat.exists
 
-- name: "Log - Masking : {{ idName }}"
-  debug:
-    msg: 
-      - "{{mask_result.cmd}}"
-      - "{{mask_result.stdout_lines}}" 
-  when: masking_file.stat.exists
+# - name: "Log - Masking : {{ idName }}"
+#   debug:
+#     msg: 
+#       - "{{mask_result.cmd}}"
+#       - "{{mask_result.stdout_lines}}" 
+#   when: masking_file.stat.exists

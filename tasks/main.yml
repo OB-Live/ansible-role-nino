@@ -1,5 +1,14 @@
 ---
 
+- name: "Init logs"
+  shell: | 
+    echo "====== Lino Exec Log ====== " > exec.log
+    echo "====== ============= ====== " >> exec.log
+    echo "====== $(date '+%d/%m/%Y %H:%M:%S') ====== " >> exec.log
+    echo "====== ============= ====== " >> exec.log
+  args:
+    executable: /bin/bash
+
 - include_tasks: connect.yml
 
 - name: Iterate over entities
