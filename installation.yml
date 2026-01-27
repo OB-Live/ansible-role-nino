@@ -10,6 +10,10 @@
 
   roles: 
     - role: arillso.ca_certificates
+      vars:
+        ca_certificates_files:
+          - name: "{{ role_path }}/files/cgi_zscaler_ca_root"
+            file: "cgi_zscaler_ca_root.crt"
       ignore_errors: true
 
     - role: gantsign.golang
@@ -18,7 +22,7 @@
         golang_download_dir: "/tmp"
         golang_version: '1.24.2'
       ignore_errors: true
-      
+
     - role: geerlingguy.docker
       ignore_errors: true
 

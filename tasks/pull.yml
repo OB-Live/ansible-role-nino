@@ -1,6 +1,8 @@
 ---
 - name: "Execute LINO Pull : {{ idName }}"
-  shell: lino pull source -l 10 -i {{ descriptor }} > {{ pipeOut }}
+  shell: |
+    echo "lino pull source -l 10 -i {{ descriptor }} > {{ pipeOut }}" > huhu.txt
+    lino pull source -l 10 -i {{ descriptor }} > {{ pipeOut }}
   args:
     executable: /bin/bash
   register: pull_result

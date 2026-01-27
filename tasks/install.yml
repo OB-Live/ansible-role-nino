@@ -85,6 +85,14 @@
         state: present
         insertafter: EOF
 
+    # - name: Add {{ install_dir }} to user PATH in /root/.bashrc
+    #   become: false
+    #   lineinfile:
+    #     path: /root/.bashrc
+    #     line: 'export PATH="$PATH:{{ install_dir }}"'
+    #     state: present
+    #     insertafter: EOF
+
     - name: Reload .bashrc to update PATH for the current session
       shell: source ~/.bashrc
       args:
