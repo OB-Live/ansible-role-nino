@@ -37,11 +37,14 @@
   #### BUSINESS LOGIC HERE ####
   roles:
     - name: OB-Live.nino
+  # tasks:
+  #   - include_tasks: tasks/main.yml  
       vars:
         entities:
           - name: "owners"
-
+            id_json: "{{ fifos_dir }}/owners.jsonl"
           - name: "pets"
+            id_json: "{{ fifos_dir }}/pets.jsonl"
             yaml_mask: "{{ workspace }}/target/pets-masking.yml"  # Required
             # id_json: "{{ fifos_dir }}/{{ idName }}.jsonl"         # Optional
             # id_mask: "{{ fifos_dir }}/{{ idName }}-masked.jsonl"  # Optional 
