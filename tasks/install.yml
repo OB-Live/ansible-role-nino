@@ -49,7 +49,7 @@
     
     - name: "Create {{ fifos_dir }} folder with 777 permissions"
       ansible.builtin.file:
-        path: {{ fifos_dir }}
+        path: "{{ fifos_dir }}"
         state: directory
         mode: '0777'
 
