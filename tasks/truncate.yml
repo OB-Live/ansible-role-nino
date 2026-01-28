@@ -2,6 +2,9 @@
 - name: "LINO Truncate target : {{ idName }}"
   when: truncate_target | default(false)
   shell: |
+    echo "$ lino pull target -i {{ descriptor }} " >> exec.log
+    lino pull target -i {{ descriptor }} >> exec.log
+
     echo "$ lino push truncate target -i {{ descriptor }} " >> exec.log
     lino push truncate target -i {{ descriptor }} </dev/null  
 

@@ -15,24 +15,32 @@
 
 - include_tasks: truncate.yml
   loop: "{{ entities }}"
-  loop_control:
-    loop_var: entity
   vars: 
-    idName: "{{ entity.name }}"
+    idName: "{{ item.name }}"
 
 - name: Iterate over entities
   include_tasks: pipeline.yml
-  loop: "{{ entities }}"
-  loop_control:
-    loop_var: entity
+  loop: "{{ entities }}" 
   vars: 
-    idName: "{{ entity.name }}"
-    id_json: "{{ entity.id_json }}"
-    id_mask: "{{ entity.id_mask if entity.id_mask is defined else '' }}" 
-    yaml_mask: "{{ entity.yaml_mask if entity.yaml_mask is defined else '' }}"
+    idName: "{{ item.name }}"
+    id_json: "{{ item.id_json }}"
+    id_mask: "{{ item.id_mask if item.id_mask is defined else '' }}" 
+    yaml_mask: "{{ item.yaml_mask if item.yaml_mask is defined else '' }}"
+
+- name: "LINO check target : {{ item.name }}" 
+  shell: |
+    echo "$ lino pull target -i {{ descriptor }} " >> exec.log
+    lino pull target -i {{ descriptor }} >> exec.log
+  args:
+    executable: /bin/bash
+  vars: 
+    descriptor: "{{ workspace }}/target/{{ item.name }}-descriptor.yml"
+  loop: "{{ entities }}"
 
 # Post processing
 - include_tasks: diff.yml
+
+
 
 # - include_tasks: cleanup.yml
 #   ignore_errors: true
