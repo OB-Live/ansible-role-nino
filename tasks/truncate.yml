@@ -3,7 +3,10 @@
   when: truncate_target | default(false)
   shell: |
     echo "$ lino push truncate target -i {{ descriptor }} " >> exec.log
-    lino push truncate target -i {{ descriptor }} >> exec.log
+    lino push truncate target -i {{ descriptor }} </dev/null  
+
+    echo "$ lino pull target -i {{ descriptor }} " >> exec.log
+    lino pull target -i {{ descriptor }} >> exec.log
   args:
     executable: /bin/bash
   vars:
