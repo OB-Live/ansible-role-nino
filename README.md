@@ -2,6 +2,8 @@
 
 This Ansible role NINO (Narrow Input, Narrow Output) is an ETL dedicated to data masking and anonymisation using LINO, PIMO, SIGO, and MIMO 
 
+![Getting Started](./docs/NINO.drawio.svg)
+
 # Example playbook petstore
 
 ```yml 
@@ -51,6 +53,7 @@ sudo dnf install ansible -y
 # ansible-galaxy role remove OB-Live.nino
 ansible-galaxy role install OB-Live.nino
 ansible-galaxy collection install community.docker 
+ansible-galaxy install -r ~/.ansible/roles/OB-Live.nino/requirements.yml
 ansible-playbook ~/.ansible/roles/OB-Live.nino/installation.yml -K
 ```
 

@@ -12,3 +12,5 @@ nohup.out
 exec.log
 example/petstore/source/analyze.yml
 diff.log
+docs/.$NINO.drawio.dtmp
+docs/.$NINO.drawio.bkp
