@@ -1,4 +1,22 @@
 ---
+
+
+- name: "Ensure {{ fifos_dir }} exists and is writable by the current user"
+  block:
+    - name: "Attempt to create and set permissions on {{ fifos_dir }}"
+      ansible.builtin.file:
+        path: "{{ fifos_dir }}"
+        state: directory
+        mode: '0755' # Owner: rwx, Group: rx, Other: rx
+  rescue:
+    - name: "Fail with a clear message if directory is not accessible"
+      ansible.builtin.fail:
+        msg:
+          - "Could not create or set permissions for the directory: {{ fifos_dir }}"
+          - "Please ensure the current user ({{ ansible_user_id }}) has permission to create and modify this path."
+          - "Alternatively, run the playbook with elevated privileges (e.g., using --become)."
+
+
 - name: Clear the named pipes {{ item }}
   ansible.builtin.command: |
     echo  "rm -f {{ item }} " > exec.log
