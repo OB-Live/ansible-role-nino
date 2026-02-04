@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
+      - name: Install community.docker collection
+        run: ansible-galaxy collection install community.docker
       - name: Run ansible-lint
         uses: ansible/ansible-lint@main # or vX.X.X version
         # optional (see below):
@@ -22,7 +24,3 @@ jobs:
           python_version: "3.14"
           working_directory: "tests"
           requirements_file: "requirements.yml"
-          # Optional: specify arguments to ansible-lint
-          # args: ""
-          # Optional: install requirements from a file
-          requirements: "requirements.yml"
