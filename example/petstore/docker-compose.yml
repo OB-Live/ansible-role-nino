@@ -37,7 +37,7 @@ services:
       - "5432:5432"
     networks:
       - app_net
-  
+
   bddql:
     image: postgres:12.3
     environment:

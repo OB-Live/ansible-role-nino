@@ -32,21 +32,21 @@
 - name: Installation and Configuration Block
   when: "lino_version not in lino_check.stdout"
   block:
-    - name: Ensure {{ install_dir }} directory exists
+    - name: "Ensure install directory exists: {{ install_dir }}"
       become: true
       ansible.builtin.file:
         path: "{{ install_dir }}"
         state: directory
         mode: '0755'
 
-    - name: "Ensure {{ workspace }} directory exists"
+    - name: "Ensure workspace directory exists: {{ workspace }}"
       become: false
       ansible.builtin.file:
         path: "{{ workspace }}"
         state: directory
         mode: '0755'
 
-    - name: "Create {{ fifos_dir }} folder with 777 permissions"
+    - name: "Create folder with 777 permissions: {{ fifos_dir }}"
       ansible.builtin.file:
         path: "{{ fifos_dir }}"
         state: directory
@@ -54,33 +54,33 @@
 
     - name: "LINO components"
       block:
-      - name: Download LINO components to cache
-        become: true
-        ansible.builtin.get_url:
-          url: "{{ item.url }}"
-          dest: "/tmp/{{ item.url | basename }}"
-          mode: '0644'
-          force: false                # don't re-download if file already present
-          validate_certs: no
-        loop: "{{ lino_components }}"
-        loop_control:
-          label: "{{ item.name }}"
-        register: download_result
-        until: download_result is succeeded
-        retries: 2
-        delay: 5
+        - name: Download LINO components to cache
+          become: true
+          ansible.builtin.get_url:
+            url: "{{ item.url }}"
+            dest: "/tmp/{{ item.url | basename }}"
+            mode: '0644'
+            force: false                # don't re-download if file already present
+            validate_certs: no
+          loop: "{{ lino_components }}"
+          loop_control:
+            label: "{{ item.name }}"
+          register: download_result
+          until: download_result is succeeded
+          retries: 2
+          delay: 5
 
-      - name: Extract LINO components
-        become: true
-        ansible.builtin.unarchive:
-          src: "/tmp/{{ item.url | basename }}"
-          dest: "{{ install_dir }}"
-          remote_src: yes
-          extra_opts: [--strip-components=0] # Adjust if tars have subfolders
-          creates: "{{ item.creates }}"
-        loop: "{{ lino_components }}"
-        loop_control:
-          label: "{{ item.name }}"
+        - name: Extract LINO components
+          become: true
+          ansible.builtin.unarchive:
+            src: "/tmp/{{ item.url | basename }}"
+            dest: "{{ install_dir }}"
+            remote_src: yes
+            extra_opts: [--strip-components=0] # Adjust if tars have subfolders
+            creates: "{{ item.creates }}"
+          loop: "{{ lino_components }}"
+          loop_control:
+            label: "{{ item.name }}"
 
     - name: Add install directory to user PATH in .bashrc
       become: false

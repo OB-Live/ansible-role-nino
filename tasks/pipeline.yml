@@ -1,11 +1,11 @@
-
-- name: Create required FIFOs for {{ id_name }}
+---
+- name: "Create required FIFOs for {{ id_name }}"
   ansible.builtin.include_tasks: fifos.yml
   loop:
     - "{{ id_json }}"
     - "{{ id_mask }}"
 
-- name: Check that the {{ id_name }}-masking.yml exists
+- name: "Check that masking.yml exists for {{ id_name }}"
   ansible.builtin.stat:
     path: "{{ workspace }}/target/{{ id_name }}-masking.yml"
   register: masking_file

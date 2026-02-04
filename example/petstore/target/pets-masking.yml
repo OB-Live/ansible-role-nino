@@ -16,13 +16,13 @@ masking:
       jsonpath: "address"
     mask:
       randomChoiceInUri: "pimo://nameFR"
-      #template: '{{ := split ";" (toString .adresse_brute) }}{{._2}}, {{._4}}'
+      # template: '{{ := split ";" (toString .adresse_brute) }}{{._2}}, {{._4}}'
 
   - selector:
       jsonpath: "city"
     mask:
       randomChoiceInUri: "pimo://nameFR"
-      #template: '{{ := split ";" (toString .adresse_brute) }}{{._7}}'
+      # template: '{{ := split ";" (toString .adresse_brute) }}{{._7}}'
 
   - selector:
       jsonpath: "first_name"

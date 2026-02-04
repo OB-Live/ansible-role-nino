@@ -22,3 +22,7 @@ jobs:
           python_version: "3.14"
           working_directory: "tests"
           requirements_file: "requirements.yml"
+          # Optional: specify arguments to ansible-lint
+          # args: ""
+          # Optional: install requirements from a file
+          requirements: "requirements.yml"

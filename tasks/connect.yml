@@ -38,27 +38,27 @@
 
 - name: "LINO Extract metadata"
   block:
-  - name: "Extract metadata"
-    ansible.builtin.shell: |
-      echo "$ lino id create {{ item }} -i {{ descriptor }}" >> exec.log
-      lino id create {{ item }} -i {{ descriptor }} &>> exec.log
+    - name: "Extract metadata"
+      ansible.builtin.shell: |
+        echo "$ lino id create {{ item }} -i {{ descriptor }}" >> exec.log
+        lino id create {{ item }} -i {{ descriptor }} &>> exec.log
 
-      echo "$ lino id display-plan -i {{ descriptor }}" >> exec.log
-      lino id display-plan -i {{ descriptor }} &>> exec.log
-    args:
-      executable: /bin/bash
-    register: extract_result
-    changed_when: "extract_result.rc != 0"
-    vars:
-      descriptor: "{{ workspace }}/source/{{ item }}-descriptor.yml"
-      #data_out: "business/{{ id_name }}_data.jsonl"
-    loop:
-      - 'owners'
-      - 'pets'
+        echo "$ lino id display-plan -i {{ descriptor }}" >> exec.log
+        lino id display-plan -i {{ descriptor }} &>> exec.log
+      args:
+        executable: /bin/bash
+      register: extract_result
+      changed_when: "extract_result.rc != 0"
+      vars:
+        descriptor: "{{ workspace }}/source/{{ item }}-descriptor.yml"
+        # data_out: "business/{{ id_name }}_data.jsonl"
+      loop:
+        - 'owners'
+        - 'pets'
 
-  - name: "Log - Connecting and Extracting metadata"
-    ansible.builtin.debug:
-      msg:
-        - "{{ connectsrc_result.stdout_lines }}"
-        - "{{ connecttgt_result.stdout_lines }}"
-        - "{{ extract_result }}"
+    - name: "Log - Connecting and Extracting metadata"
+      ansible.builtin.debug:
+        msg:
+          - "{{ connectsrc_result.stdout_lines }}"
+          - "{{ connecttgt_result.stdout_lines }}"
+          - "{{ extract_result }}"

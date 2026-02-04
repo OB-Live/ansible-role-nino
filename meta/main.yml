@@ -1,5 +1,7 @@
 galaxy_info:
   author: Olivier Bertrand
+  namespace: ob_live
+  role_name: nino
   description: narrow input narrow output
   license: GNU GPLv3
   min_ansible_version: "2.1"
