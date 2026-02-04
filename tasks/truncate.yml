@@ -12,5 +12,6 @@
     lino pull target -i {{ descriptor }} >> exec.log
   args:
     executable: /bin/bash
+  changed_when: false
   vars:
     descriptor: "{{ workspace }}/target/{{ id_name }}-descriptor.yml"

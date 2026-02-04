@@ -5,11 +5,10 @@
     lino pull source -l 10 -i {{ descriptor }} > {{ pipe_out }}
   args:
     executable: /bin/bash
-  # register: pull_result
+  changed_when: false
   vars:
     descriptor: "{{ workspace }}/target/{{ id_name }}-descriptor.yml"
     pipe_out: "{{ fifos_dir }}/{{ id_name }}.jsonl"
-   
 
 # - name: "Log - Pull : {{ id_name }}"
 #   debug:

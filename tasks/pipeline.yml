@@ -1,22 +1,22 @@
 
 - name: Create required FIFOs for {{ id_name }}
-  include_tasks: fifos.yml
+  ansible.builtin.include_tasks: fifos.yml
   loop:
     - "{{ id_json }}"
     - "{{ id_mask }}"
 
 - name: Check that the {{ id_name }}-masking.yml exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ workspace }}/target/{{ id_name }}-masking.yml"
   register: masking_file
 
 - name: Include push task for {{ id_name }}
-  include_tasks: push.yml
+  ansible.builtin.include_tasks: push.yml
   vars:
     pipe_in: "{{ id_mask if masking_file.stat.exists else id_json }}"
 
 - name: Include mask task for {{ id_name }}
-  include_tasks: mask.yml
+  ansible.builtin.include_tasks: mask.yml
   when: masking_file.stat.exists
   vars:
     pipe_in: "{{ id_json }}"
@@ -24,7 +24,7 @@
     masking: "{{ yaml_mask }}"
 
 - name: Include pull task for {{ id_name }}
-  include_tasks: pull.yml
+  ansible.builtin.include_tasks: pull.yml
   vars:
     pipe_out: "{{ id_json }}"
     descriptor: "{{ workspace }}/target/{{ id_name }}-descriptor.yml"

@@ -1,12 +1,12 @@
 ---
 - name: Clear the named pipes {{ item }}
-  command: |
+  ansible.builtin.command: |
     echo  "rm -f {{ item }} " > exec.log
     rm -f {{ item }}
-  ignore_errors: true
+  changed_when: false
 
 - name: Create the named pipe {{ item }}
-  command: |
+  ansible.builtin.command: |
     echo  "mkfifo --m 666 {{ item }} " > exec.log
     mkfifo --m 666 {{ item }}
   args:

@@ -1,7 +1,7 @@
 ---
 - name: Clear dataconnctor.yaml
-  command: rm -f dataconnctor.yaml
-  ignore_errors: true
+  ansible.builtin.command: rm -f dataconnctor.yaml
+  changed_when: false
 
 - name: "LINO Connect source : {{ source_db }}"
   ansible.builtin.shell: |
@@ -22,6 +22,7 @@
   args:
     executable: /bin/bash
   register: connectsrc_result
+  changed_when: "connectsrc_result.rc != 0"
 
 - name: "LINO Connect target : {{ target_db }}"
   ansible.builtin.shell: |
@@ -33,8 +34,10 @@
   args:
     executable: /bin/bash
   register: connecttgt_result
+  changed_when: "connecttgt_result.rc != 0"
 
-- block:
+- name: "LINO Extract metadata"
+  block:
   - name: "Extract metadata"
     ansible.builtin.shell: |
       echo "$ lino id create {{ item }} -i {{ descriptor }}" >> exec.log
@@ -45,6 +48,7 @@
     args:
       executable: /bin/bash
     register: extract_result
+    changed_when: "extract_result.rc != 0"
     vars:
       descriptor: "{{ workspace }}/source/{{ item }}-descriptor.yml"
       #data_out: "business/{{ id_name }}_data.jsonl"
@@ -53,7 +57,7 @@
       - 'pets'
 
   - name: "Log - Connecting and Extracting metadata"
-    debug:
+    ansible.builtin.debug:
       msg:
         - "{{ connectsrc_result.stdout_lines }}"
         - "{{ connecttgt_result.stdout_lines }}"

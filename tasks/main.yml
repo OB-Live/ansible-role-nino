@@ -10,18 +10,19 @@
     echo "=                                     = " >> exec.log
   args:
     executable: /bin/bash
+  changed_when: false
 
 - name: Connect to source and target databases
-  include_tasks: connect.yml
+  ansible.builtin.include_tasks: connect.yml
 
 - name: Truncate target tables if configured
-  include_tasks: truncate.yml
+  ansible.builtin.include_tasks: truncate.yml
   loop: "{{ entities }}"
   vars:
     id_name: "{{ item.name }}"
 
 - name: Iterate over entities
-  include_tasks: pipeline.yml
+  ansible.builtin.include_tasks: pipeline.yml
   loop: "{{ entities }}"
   vars:
     id_name: "{{ item.name }}"
@@ -35,13 +36,14 @@
     lino pull target -i {{ descriptor }} >> exec.log
   args:
     executable: /bin/bash
+  changed_when: false
   vars:
     descriptor: "{{ workspace }}/target/{{ item.name }}-descriptor.yml"
   loop: "{{ entities }}"
 
 # Post processing
 - name: Compare source and target files for differences
-  include_tasks: diff.yml
+  ansible.builtin.include_tasks: diff.yml
 
-# - include_tasks: cleanup.yml
+# - ansible.builtin.include_tasks: cleanup.yml
 #   ignore_errors: true
