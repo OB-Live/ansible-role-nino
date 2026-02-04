@@ -3,8 +3,6 @@
   hosts: localhost
   connection: local
   become: false
-  collections:
-    - community.docker
   gather_facts: true
   environment:
     PATH: "{{ ansible_env.PATH }}:{{ install_dir }}"
@@ -45,8 +43,6 @@
         # state: present
         state: absent
 
-
-
   #### BUSINESS LOGIC HERE ####
   roles:
     - name: ob_live.nino
@@ -62,6 +58,3 @@
             yaml_mask: "{{ workspace }}/target/pets-masking.yml"  # Required
             # id_json: "{{ fifos_dir }}/{{ id_name }}.jsonl"         # Optional
             # id_mask: "{{ fifos_dir }}/{{ id_name }}-masked.jsonl"  # Optional
-
-
-    
