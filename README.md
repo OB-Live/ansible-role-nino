@@ -8,7 +8,7 @@ This Ansible role NINO (Narrow Input, Narrow Output) is an ETL dedicated to data
 
 ```yml 
   roles:
-    - name: ob_live.nino 
+    - name: OB-Live.nino 
       vars:
         entities:
           - name: "owners"
@@ -50,11 +50,11 @@ sudo dnf install ansible -y
 
 ### NINO and its dependencies 
 ```bash
-# ansible-galaxy role remove ob_live.nino
-ansible-galaxy role install ob_live.nino
+# ansible-galaxy role remove OB-Live.nino
+ansible-galaxy role install OB-Live.nino
 ansible-galaxy collection install community.docker 
-ansible-galaxy install -r ~/.ansible/roles/ob_live.nino/requirements.yml
-ansible-playbook ~/.ansible/roles/ob_live.nino/installation.yml -K
+ansible-galaxy install -r ~/.ansible/roles/OB-Live.nino/requirements.yml
+ansible-playbook ~/.ansible/roles/OB-Live.nino/installation.yml -K
 ```
 
 ### Run test example - petstore
