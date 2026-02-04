@@ -1,7 +1,7 @@
 ---
 
 - name: "Init logs"
-  shell: | 
+  shell: |
     echo "============ NĬNO Exec Log ============ " > exec.log
     echo "=                                     = " >> exec.log
     echo "==== from {{ source_db }} " >> exec.log
@@ -15,25 +15,25 @@
 
 - include_tasks: truncate.yml
   loop: "{{ entities }}"
-  vars: 
-    idName: "{{ item.name }}"
+  vars:
+    id_name: "{{ item.name }}"
 
 - name: Iterate over entities
   include_tasks: pipeline.yml
-  loop: "{{ entities }}" 
-  vars: 
-    idName: "{{ item.name }}"
+  loop: "{{ entities }}"
+  vars:
+    id_name: "{{ item.name }}"
     id_json: "{{ item.id_json }}"
-    id_mask: "{{ item.id_mask if item.id_mask is defined else '' }}" 
+    id_mask: "{{ item.id_mask if item.id_mask is defined else '' }}"
     yaml_mask: "{{ item.yaml_mask if item.yaml_mask is defined else '' }}"
 
-- name: "LINO check target : {{ item.name }}" 
+- name: "LINO check target : {{ item.name }}"
   shell: |
     echo "$ lino pull target -i {{ descriptor }} " >> exec.log
     lino pull target -i {{ descriptor }} >> exec.log
   args:
     executable: /bin/bash
-  vars: 
+  vars:
     descriptor: "{{ workspace }}/target/{{ item.name }}-descriptor.yml"
   loop: "{{ entities }}"
 

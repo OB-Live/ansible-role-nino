@@ -4,9 +4,9 @@
     - "{{ id_json }}"
     - "{{ id_mask }}"
 
-- name: Check that the {{ idName }}-masking.yml exists
+- name: Check that the {{ id_name }}-masking.yml exists
   stat:
-    path: "{{ workspace }}/target/{{ idName }}-masking.yml"
+    path: "{{ workspace }}/target/{{ id_name }}-masking.yml"
   register: masking_file
 
 - include_tasks: push.yml
@@ -23,4 +23,4 @@
 - include_tasks: pull.yml
   vars:
     pipeOut: "{{ id_json }}"
-    descriptor: "{{ workspace }}/target/{{ idName }}-descriptor.yml"
+    descriptor: "{{ workspace }}/target/{{ id_name }}-descriptor.yml"

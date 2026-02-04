@@ -10,7 +10,7 @@ sigo_version: "0.4.0"
 mimo_version: "0.8.0"
 nino_version: "0.1.1"
 
-# install variables 
+# install variables
 install_dir: "/usr/lino"
 fifos_dir: "/tmp/lino"
 # tables: "{{workspace}}/tables.yml"
@@ -34,7 +34,7 @@ lino_components:
   - name: NINO workspace
     url: "https://github.com/OB-Live/nino/releases/download/v{{ nino_version }}/NINO_{{ nino_version }}_worspace.zip"
     creates: "{{ workspace }}"
-# Business defaults 
+# Business defaults
 
 id_json: "{{ fifos_dir }}/{{ id_name }}.jsonl"
 id_mask: "{{ fifos_dir }}/{{ id_name }}-masked.jsonl"

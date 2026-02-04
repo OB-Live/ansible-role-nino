@@ -34,6 +34,6 @@
   register: log_content
   changed_when: false
 
-- name: Display exec.log 
+- name: Display exec.log
   ansible.builtin.debug:
     var: log_content.stdout_lines

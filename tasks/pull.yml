@@ -1,5 +1,5 @@
 ---
-- name: "Execute LINO Pull : {{ idName }}"
+- name: "Execute LINO Pull : {{ id_name }}"
   shell: |
     echo "$ lino pull source -l 10 -i {{ descriptor }} > {{ pipeOut }}" &>> exec.log
     lino pull source -l 10 -i {{ descriptor }} > {{ pipeOut }}
@@ -7,10 +7,10 @@
     executable: /bin/bash
   # register: pull_result
   vars:
-    descriptor: "{{ workspace }}/target/{{ idName }}-descriptor.yml"
-    pipeOut: "{{ fifos_dir }}/{{ idName }}.jsonl"
-    
+    descriptor: "{{ workspace }}/target/{{ id_name }}-descriptor.yml"
+    pipeOut: "{{ fifos_dir }}/{{ id_name }}.jsonl"
+   
 
-# - name:  "Log - Pull : {{ idName }}"
+# - name: "Log - Pull : {{ id_name }}"
 #   debug:
 #     var: pull_result

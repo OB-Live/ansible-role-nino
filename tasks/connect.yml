@@ -1,6 +1,6 @@
 ---
-- name: Clear dataconnctor.yaml  
-  command: rm -f dataconnctor.yaml  
+- name: Clear dataconnctor.yaml
+  command: rm -f dataconnctor.yaml
   ignore_errors: true
 
 - name: "LINO Connect source : {{ source_db }}"
@@ -47,15 +47,14 @@
     register: extract_result
     vars:
       descriptor: "{{ workspace }}/source/{{ item }}-descriptor.yml"
-      #data_out: "business/{{ idName }}_data.jsonl"
-    loop: 
+      #data_out: "business/{{ id_name }}_data.jsonl"
+    loop:
       - 'owners'
       - 'pets'
 
-  - name:  "Log - Connecting and Extracting metadata"
+  - name: "Log - Connecting and Extracting metadata"
     debug:
-      msg: 
+      msg:
         - "{{ connectsrc_result.stdout_lines }}"
         - "{{ connecttgt_result.stdout_lines }}"
         - "{{ extract_result }}"
- 

@@ -53,7 +53,8 @@
         state: directory
         mode: '0777'
 
-    - block: 
+    - name: "LINO components"
+      block:
       - name: Download LINO components to cache
         become: true
         ansible.builtin.get_url:

@@ -1,23 +1,23 @@
 ---
- 
 
-- name: "PIMO Masking : {{ idName }}"
-  shell: | 
+
+- name: "PIMO Masking : {{ id_name }}"
+  shell: |
     echo "$ nohup pimo -c {{ masking }} < {{ pipeIn }} > {{ pipeOut }} 2>&1 & " >> exec.log
-    nohup pimo -c {{ masking }} < {{ pipeIn }} > {{ pipeOut }} 2>&1 & 
+    nohup pimo -c {{ masking }} < {{ pipeIn }} > {{ pipeOut }} 2>&1 &
     echo $! >> exec.log
   args:
     executable: /bin/bash
   register: mask_result
   vars:
-    masking: "{{ workspace }}/target/{{ idName }}-masking.yml"
-    pipeIn: "{{ fifos_dir }}/{{ idName }}.jsonl"
-    pipeOut: "{{ fifos_dir }}/{{ idName }}-masking.jsonl"
+    masking: "{{ workspace }}/target/{{ id_name }}-masking.yml"
+    pipeIn: "{{ fifos_dir }}/{{ id_name }}.jsonl"
+    pipeOut: "{{ fifos_dir }}/{{ id_name }}-masking.jsonl"
   when: masking_file.stat.exists
 
-# - name: "Log - Masking : {{ idName }}"
+# - name: "Log - Masking : {{ id_name }}"
 #   debug:
-#     msg: 
+#     msg:
 #       - "{{mask_result.cmd}}"
-#       - "{{mask_result.stdout_lines}}" 
+#       - "{{mask_result.stdout_lines}}"
 #   when: masking_file.stat.exists

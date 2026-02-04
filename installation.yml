@@ -8,7 +8,7 @@
     golang_mirror: "https://go.dev/dl"
     install_dir: "/usr/lino"
 
-  roles: 
+  roles:
     - role: arillso.ca_certificates
       vars:
         ca_certificates_files:
@@ -27,10 +27,10 @@
       ignore_errors: true
 
   tasks:
-    - include_role: 
+    - include_role:
         name: OB-Live.nino
-        tasks_from: install 
+        tasks_from: install
 
-   
+ 
 
 

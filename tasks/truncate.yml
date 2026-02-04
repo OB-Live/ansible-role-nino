@@ -1,16 +1,16 @@
 ---
-- name: "LINO Truncate target : {{ idName }}"
+- name: "LINO Truncate target : {{ id_name }}"
   when: truncate_target | default(false)
   shell: |
     echo "$ lino pull target -i {{ descriptor }} " >> exec.log
     lino pull target -i {{ descriptor }} >> exec.log
 
     echo "$ lino push truncate target -i {{ descriptor }} " >> exec.log
-    lino push truncate target -i {{ descriptor }} </dev/null  
+    lino push truncate target -i {{ descriptor }} </dev/null
 
     echo "$ lino pull target -i {{ descriptor }} " >> exec.log
     lino pull target -i {{ descriptor }} >> exec.log
   args:
     executable: /bin/bash
   vars:
-    descriptor: "{{ workspace }}/target/{{ idName }}-descriptor.yml"
+    descriptor: "{{ workspace }}/target/{{ id_name }}-descriptor.yml"
