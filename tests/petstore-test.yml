@@ -3,6 +3,8 @@
   hosts: localhost
   connection: local
   become: false
+  collections:
+    - community.docker
   gather_facts: true
   environment:
     PATH: "{{ ansible_env.PATH }}:{{ install_dir }}"
