@@ -1,6 +1,4 @@
 ---
-
-
 - name: "PIMO Masking : {{ id_name }}"
   ansible.builtin.shell: |
     echo "$ nohup pimo -c {{ masking }} < {{ pipe_in }} > {{ pipe_out }} 2>&1 & " >> exec.log

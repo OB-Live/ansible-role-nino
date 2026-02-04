@@ -1,6 +1,4 @@
 ---
-
-
 - name: "Ensure {{ fifos_dir }} exists and is writable by the current user"
   block:
     - name: "Attempt to create and set permissions on {{ fifos_dir }}"
