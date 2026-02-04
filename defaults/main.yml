@@ -8,6 +8,7 @@ lino_version: "3.6.1"
 pimo_version: "1.31.3"
 sigo_version: "0.4.0"
 mimo_version: "0.8.0"
+nino_version: "0.1.1"
 
 # install variables 
 install_dir: "/usr/lino"
@@ -27,7 +28,12 @@ lino_components:
   - name: MIMO
     url: "https://github.com/CGI-FR/MIMO/releases/download/v{{ mimo_version }}/MIMO_{{ mimo_version }}_linux_amd64.tar.gz"
     creates: "{{ install_dir }}/mimo"
-
+  - name: NINO
+    url: "https://github.com/OB-Live/nino/releases/download/v{{ nino_version }}/NINO_{{ nino_version }}_linux_amd64.tar.gz"
+    creates: "{{ install_dir }}/nino"
+  - name: NINO workspace
+    url: "https://github.com/OB-Live/nino/releases/download/v{{ nino_version }}/NINO_{{ nino_version }}_worspace.zip"
+    creates: "{{ workspace }}"
 # Business defaults 
 
 id_json: "{{ fifos_dir }}/{{ idName }}.jsonl"
