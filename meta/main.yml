@@ -1,6 +1,6 @@
 galaxy_info:
   author: Olivier Bertrand
-  namespace: OB-Live
+  namespace: ob_live
   role_name: nino
   description: narrow input narrow output
   license: GNU GPLv3

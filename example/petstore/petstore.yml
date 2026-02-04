@@ -38,11 +38,11 @@
 
     #### BUSINESS LOGIC HERE ####
     # Check connections and initialize FIFOs
-    - include_role: { name: OB-Live.nino, tasks_from: connect } 
+    - include_role: { name: ob_live.nino, tasks_from: connect } 
       vars:
         workspace: "example/petstore"
 
-    - include_role: { name: OB-Live.nino, tasks_from: fifos }
+    - include_role: { name: ob_live.nino, tasks_from: fifos }
       loop:
         - "{{ fifo_pets_masking }}"
         - "{{ fifo_pets }}"
@@ -50,25 +50,25 @@
 
 
     # Owners (declare push, then pull)
-    - include_role: { name: OB-Live.nino, tasks_from: push } # declare push 
+    - include_role: { name: ob_live.nino, tasks_from: push } # declare push 
       vars:
         id_name: "owners"
 
-    - include_role: { name: OB-Live.nino, tasks_from: pull } # then pull 
+    - include_role: { name: ob_live.nino, tasks_from: pull } # then pull 
       vars:
         id_name: "owners"
         workspace: "example/petstore"
 
     # Pets (declare push, then declare mask, then pull)
-    - include_role: { name: OB-Live.nino, tasks_from: push } # declare push 
+    - include_role: { name: ob_live.nino, tasks_from: push } # declare push 
       vars:
         id_name: "pets"
         pipe_in: "{{ fifo_pets_masking }}"
 
-    - include_role: { name: OB-Live.nino, tasks_from: mask }  # then declare mask  
+    - include_role: { name: ob_live.nino, tasks_from: mask }  # then declare mask  
       vars:
         id_name: "pets"
 
-    - include_role: { name: OB-Live.nino, tasks_from: pull } # then pull 
+    - include_role: { name: ob_live.nino, tasks_from: pull } # then pull 
       vars:
         id_name: "pets"

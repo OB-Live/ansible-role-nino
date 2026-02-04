@@ -61,7 +61,7 @@
             dest: "/tmp/{{ item.url | basename }}"
             mode: '0644'
             force: false                # don't re-download if file already present
-            validate_certs: no
+            validate_certs: false
           loop: "{{ lino_components }}"
           loop_control:
             label: "{{ item.name }}"
@@ -75,7 +75,7 @@
           ansible.builtin.unarchive:
             src: "/tmp/{{ item.url | basename }}"
             dest: "{{ install_dir }}"
-            remote_src: yes
+            remote_src: true
             extra_opts: [--strip-components=0] # Adjust if tars have subfolders
             creates: "{{ item.creates }}"
           loop: "{{ lino_components }}"
