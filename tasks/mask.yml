@@ -2,17 +2,17 @@
 
 
 - name: "PIMO Masking : {{ id_name }}"
-  shell: |
-    echo "$ nohup pimo -c {{ masking }} < {{ pipeIn }} > {{ pipeOut }} 2>&1 & " >> exec.log
-    nohup pimo -c {{ masking }} < {{ pipeIn }} > {{ pipeOut }} 2>&1 &
+  ansible.builtin.shell: |
+    echo "$ nohup pimo -c {{ masking }} < {{ pipe_in }} > {{ pipe_out }} 2>&1 & " >> exec.log
+    nohup pimo -c {{ masking }} < {{ pipe_in }} > {{ pipe_out }} 2>&1 &
     echo $! >> exec.log
   args:
     executable: /bin/bash
   register: mask_result
   vars:
     masking: "{{ workspace }}/target/{{ id_name }}-masking.yml"
-    pipeIn: "{{ fifos_dir }}/{{ id_name }}.jsonl"
-    pipeOut: "{{ fifos_dir }}/{{ id_name }}-masking.jsonl"
+    pipe_in: "{{ fifos_dir }}/{{ id_name }}.jsonl"
+    pipe_out: "{{ fifos_dir }}/{{ id_name }}-masking.jsonl"
   when: masking_file.stat.exists
 
 # - name: "Log - Masking : {{ id_name }}"

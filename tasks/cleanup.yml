@@ -7,7 +7,8 @@
 #   ignore_errors: true
 
 - name: Stop all running Lino processes
-  ansible.builtin.shell: "pkill -f 'lino'"
+  # Using command with pgrep and xargs to avoid shell-specific warnings
+  ansible.builtin.command: "pgrep -f 'lino' | xargs kill"
   # become: true
   failed_when: false # Don't fail if no process is found
   changed_when: false

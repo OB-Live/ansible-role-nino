@@ -1,14 +1,14 @@
 ---
 - name: "Execute LINO Pull : {{ id_name }}"
-  shell: |
-    echo "$ lino pull source -l 10 -i {{ descriptor }} > {{ pipeOut }}" &>> exec.log
-    lino pull source -l 10 -i {{ descriptor }} > {{ pipeOut }}
+  ansible.builtin.shell: |
+    echo "$ lino pull source -l 10 -i {{ descriptor }} > {{ pipe_out }}" &>> exec.log
+    lino pull source -l 10 -i {{ descriptor }} > {{ pipe_out }}
   args:
     executable: /bin/bash
   # register: pull_result
   vars:
     descriptor: "{{ workspace }}/target/{{ id_name }}-descriptor.yml"
-    pipeOut: "{{ fifos_dir }}/{{ id_name }}.jsonl"
+    pipe_out: "{{ fifos_dir }}/{{ id_name }}.jsonl"
    
 
 # - name: "Log - Pull : {{ id_name }}"

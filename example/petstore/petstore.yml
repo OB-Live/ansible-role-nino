@@ -63,7 +63,7 @@
     - include_role: { name: OB-Live.nino, tasks_from: push } # declare push 
       vars:
         id_name: "pets"
-        pipeIn: "{{ fifo_pets_masking }}"
+        pipe_in: "{{ fifo_pets_masking }}"
 
     - include_role: { name: OB-Live.nino, tasks_from: mask }  # then declare mask  
       vars:

@@ -1,5 +1,6 @@
 
-- include_tasks: fifos.yml
+- name: Create required FIFOs for {{ id_name }}
+  include_tasks: fifos.yml
   loop:
     - "{{ id_json }}"
     - "{{ id_mask }}"
@@ -9,18 +10,21 @@
     path: "{{ workspace }}/target/{{ id_name }}-masking.yml"
   register: masking_file
 
-- include_tasks: push.yml
+- name: Include push task for {{ id_name }}
+  include_tasks: push.yml
   vars:
-    pipeIn: "{{ id_mask if masking_file.stat.exists else id_json }}"
+    pipe_in: "{{ id_mask if masking_file.stat.exists else id_json }}"
 
-- include_tasks: mask.yml
+- name: Include mask task for {{ id_name }}
+  include_tasks: mask.yml
   when: masking_file.stat.exists
   vars:
-    pipeIn: "{{ id_json }}"
-    pipeOut: "{{ id_mask }}"
+    pipe_in: "{{ id_json }}"
+    pipe_out: "{{ id_mask }}"
     masking: "{{ yaml_mask }}"
 
-- include_tasks: pull.yml
+- name: Include pull task for {{ id_name }}
+  include_tasks: pull.yml
   vars:
-    pipeOut: "{{ id_json }}"
+    pipe_out: "{{ id_json }}"
     descriptor: "{{ workspace }}/target/{{ id_name }}-descriptor.yml"

@@ -4,7 +4,7 @@
   ignore_errors: true
 
 - name: "LINO Connect source : {{ source_db }}"
-  shell: |
+  ansible.builtin.shell: |
     echo "$ lino dc add source {{ source_db }}" >> exec.log
     lino dc add source {{ source_db }} &>> exec.log
 
@@ -24,7 +24,7 @@
   register: connectsrc_result
 
 - name: "LINO Connect target : {{ target_db }}"
-  shell: |
+  ansible.builtin.shell: |
     echo "$ lino dc add target {{ target_db }}" >> exec.log
     lino dc add target {{ target_db }} &>> exec.log
 
@@ -36,7 +36,7 @@
 
 - block:
   - name: "Extract metadata"
-    shell: |
+    ansible.builtin.shell: |
       echo "$ lino id create {{ item }} -i {{ descriptor }}" >> exec.log
       lino id create {{ item }} -i {{ descriptor }} &>> exec.log
 

@@ -1,7 +1,7 @@
 ---
 
 - name: "Init logs"
-  shell: |
+  ansible.builtin.shell: |
     echo "============ NĬNO Exec Log ============ " > exec.log
     echo "=                                     = " >> exec.log
     echo "==== from {{ source_db }} " >> exec.log
@@ -11,9 +11,11 @@
   args:
     executable: /bin/bash
 
-- include_tasks: connect.yml
+- name: Connect to source and target databases
+  include_tasks: connect.yml
 
-- include_tasks: truncate.yml
+- name: Truncate target tables if configured
+  include_tasks: truncate.yml
   loop: "{{ entities }}"
   vars:
     id_name: "{{ item.name }}"
@@ -28,7 +30,7 @@
     yaml_mask: "{{ item.yaml_mask if item.yaml_mask is defined else '' }}"
 
 - name: "LINO check target : {{ item.name }}"
-  shell: |
+  ansible.builtin.shell: |
     echo "$ lino pull target -i {{ descriptor }} " >> exec.log
     lino pull target -i {{ descriptor }} >> exec.log
   args:
@@ -38,9 +40,8 @@
   loop: "{{ entities }}"
 
 # Post processing
-- include_tasks: diff.yml
-
-
+- name: Compare source and target files for differences
+  include_tasks: diff.yml
 
 # - include_tasks: cleanup.yml
 #   ignore_errors: true

@@ -1,8 +1,8 @@
 ---
 - name: "Declare LINO Push : {{ id_name }}"
   ansible.builtin.shell: |
-    echo "$ nohup lino push target -v5 -i {{ descriptor }} < {{ pipeIn }} 2>&1 & " >> exec.log
-    nohup lino push target -v5 -i {{ descriptor }} < {{ pipeIn }} 2>&1 &
+    echo "$ nohup lino push target -v5 -i {{ descriptor }} < {{ pipe_in }} 2>&1 & " >> exec.log
+    nohup lino push target -v5 -i {{ descriptor }} < {{ pipe_in }} 2>&1 &
     echo $! >> exec.log
   args:
     executable: /bin/bash
@@ -10,7 +10,7 @@
   changed_when: false
   vars:
     descriptor: "{{ workspace }}/target/{{ id_name }}-descriptor.yml"
-    pipeIn: "{{ fifos_dir }}/{{ id_name }}.jsonl"
+    pipe_in: "{{ fifos_dir }}/{{ id_name }}.jsonl"
   async: 10
   poll: 0
 
