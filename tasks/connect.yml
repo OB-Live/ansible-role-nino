@@ -17,8 +17,8 @@
     echo "$ lino relation extract source" >> exec.log
     lino relation extract source &>> exec.log
 
-    echo "$ lino analyse source > {{ workspace }}/source/analyze.yml" >> exec.log
-    lino analyse source > {{ workspace }}/source/analyze.yml
+    echo "$ lino analyse source > {{ workspace }}/source/analyze.yaml" >> exec.log
+    lino analyse source > {{ workspace }}/source/analyze.yaml
   args:
     executable: /bin/bash
   register: connectsrc_result
@@ -50,7 +50,7 @@
       register: extract_result
       changed_when: "extract_result.rc != 0"
       vars:
-        descriptor: "{{ workspace }}/source/{{ item }}-descriptor.yml"
+        descriptor: "{{ workspace }}/{{ item }}-descriptor.yaml"
         # data_out: "business/{{ id_name }}_data.jsonl"
       loop:
         - 'owners'

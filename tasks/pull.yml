@@ -7,7 +7,7 @@
     executable: /bin/bash
   changed_when: false
   vars:
-    descriptor: "{{ workspace }}/target/{{ id_name }}-descriptor.yml"
+    descriptor: "{{ workspace }}/target/{{ id_name }}-descriptor.yaml"
     pipe_out: "{{ fifos_dir }}/{{ id_name }}.jsonl"
 
 # - name: "Log - Pull : {{ id_name }}"

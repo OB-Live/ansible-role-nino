@@ -10,7 +10,7 @@
     executable: /bin/bash
   register: mask_result
   vars:
-    masking: "{{ workspace }}/target/{{ id_name }}-masking.yml"
+    masking: "{{ workspace }}/{{ id_name }}-masking.yaml"
     pipe_in: "{{ fifos_dir }}/{{ id_name }}.jsonl"
     pipe_out: "{{ fifos_dir }}/{{ id_name }}-masking.jsonl"
   when: masking_file.stat.exists

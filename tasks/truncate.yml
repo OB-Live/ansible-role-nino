@@ -14,4 +14,4 @@
     executable: /bin/bash
   changed_when: false
   vars:
-    descriptor: "{{ workspace }}/target/{{ id_name }}-descriptor.yml"
+    descriptor: "{{ workspace }}/target/{{ id_name }}-descriptor.yaml"

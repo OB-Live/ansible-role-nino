@@ -1,6 +1,6 @@
 # defaults file for nino
 workspace: "business"
-# descriptor: "{{ workspace }}/target/{{ id_name }}-descriptor.yml"
+# descriptor: "{{ workspace }}/target/{{ id_name }}-descriptor.yaml"
 
 
 # vars file for nino
@@ -13,8 +13,8 @@ nino_version: "0.1.1"
 # install variables
 install_dir: "/usr/lino"
 fifos_dir: "/tmp/lino"
-# tables: "{{workspace}}/tables.yml"
-# relations: "{{workspace}}/relations.yml"
+# tables: "{{workspace}}/tables.yaml"
+# relations: "{{workspace}}/relations.yaml"
 lino_components:
   - name: LINO
     url: "https://github.com/CGI-FR/LINO/releases/download/v{{ lino_version }}/LINO_{{ lino_version }}_linux_amd64.tar.gz"

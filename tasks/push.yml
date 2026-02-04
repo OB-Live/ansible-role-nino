@@ -9,7 +9,7 @@
   register: push_result
   changed_when: false
   vars:
-    descriptor: "{{ workspace }}/target/{{ id_name }}-descriptor.yml"
+    descriptor: "{{ workspace }}/target/{{ id_name }}-descriptor.yaml"
     pipe_in: "{{ fifos_dir }}/{{ id_name }}.jsonl"
   async: 10
   poll: 0

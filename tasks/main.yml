@@ -38,7 +38,7 @@
     executable: /bin/bash
   changed_when: false
   vars:
-    descriptor: "{{ workspace }}/target/{{ item.name }}-descriptor.yml"
+    descriptor: "{{ workspace }}/target/{{ item.name }}-descriptor.yaml"
   loop: "{{ entities }}"
 
 # Post processing

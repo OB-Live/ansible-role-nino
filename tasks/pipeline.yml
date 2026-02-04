@@ -7,7 +7,7 @@
 
 - name: "Check that masking.yml exists for {{ id_name }}"
   ansible.builtin.stat:
-    path: "{{ workspace }}/target/{{ id_name }}-masking.yml"
+    path: "{{ workspace }}/{{ id_name }}-masking.yaml"
   register: masking_file
 
 - name: Include push task for {{ id_name }}
@@ -27,4 +27,4 @@
   ansible.builtin.include_tasks: pull.yml
   vars:
     pipe_out: "{{ id_json }}"
-    descriptor: "{{ workspace }}/target/{{ id_name }}-descriptor.yml"
+    descriptor: "{{ workspace }}/{{ id_name }}-descriptor.yaml"
