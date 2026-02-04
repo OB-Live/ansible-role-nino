@@ -45,7 +45,8 @@
 
   #### BUSINESS LOGIC HERE ####
   roles:
-    - name: ob_live.nino
+    - name: NINŎ
+      role: ob_live.nino
   # tasks:
   #   - ansible.builtin.include_tasks: tasks/main.yml
       vars:
