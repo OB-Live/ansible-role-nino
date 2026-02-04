@@ -46,7 +46,7 @@
   #### BUSINESS LOGIC HERE ####
   roles:
     - role: OB-Live.nino
-      name: "nino"
+      name: "NINŎ"
       # src: https://github.com/OB-Live/ansible-role-nino
   # tasks:
   #   - ansible.builtin.include_tasks: tasks/main.yml
