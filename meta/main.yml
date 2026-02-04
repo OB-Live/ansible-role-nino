@@ -2,7 +2,7 @@ galaxy_info:
   author: Olivier Bertrand
   description: narrow input narrow output
   license: GNU GPLv3
-  min_ansible_version: 2.1
+  min_ansible_version: "2.1"
 
   galaxy_tags:
     - install
@@ -13,7 +13,6 @@ galaxy_info:
     # NOTE: A tag is limited to a single word comprised of alphanumeric characters.
     #       Maximum 20 tags per role.
 
-
 # dependencies:
   # - role: community.docker.docker_compose_v2
   # - role: gantsign.golang
@@ -23,4 +22,3 @@ galaxy_info:
   #     golang_version: '1.24.2'
   # - role: arillso.ca_certificates
   # - role: geerlingguy.docker
-

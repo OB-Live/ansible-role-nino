@@ -1,6 +1,6 @@
 # defaults file for nino
 workspace: "business"
-# descriptor: "{{ workspace }}/target/{{ idName }}-descriptor.yml"
+# descriptor: "{{ workspace }}/target/{{ id_name }}-descriptor.yml"
 
 
 # vars file for nino
@@ -36,12 +36,11 @@ lino_components:
     creates: "{{ workspace }}"
 # Business defaults 
 
-id_json: "{{ fifos_dir }}/{{ idName }}.jsonl"
-id_mask: "{{ fifos_dir }}/{{ idName }}-masked.jsonl"  
+id_json: "{{ fifos_dir }}/{{ id_name }}.jsonl"
+id_mask: "{{ fifos_dir }}/{{ id_name }}-masked.jsonl"
 
-truncate_target: false  
+truncate_target: false
 
-ca_certificates_files: 
+ca_certificates_files:
   - name: cgi_zscaler_ca_root
     file: "cgi_zscaler_ca_root.crt"
-

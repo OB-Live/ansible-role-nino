@@ -52,23 +52,23 @@
     # Owners (declare push, then pull)
     - include_role: { name: OB-Live.nino, tasks_from: push } # declare push 
       vars:
-        idName: "owners" 
+        id_name: "owners"
 
     - include_role: { name: OB-Live.nino, tasks_from: pull } # then pull 
       vars:
-        idName: "owners"
+        id_name: "owners"
         workspace: "example/petstore"
 
     # Pets (declare push, then declare mask, then pull)
     - include_role: { name: OB-Live.nino, tasks_from: push } # declare push 
       vars:
-        idName: "pets"
+        id_name: "pets"
         pipeIn: "{{ fifo_pets_masking }}"
 
     - include_role: { name: OB-Live.nino, tasks_from: mask }  # then declare mask  
       vars:
-        idName: "pets" 
+        id_name: "pets"
 
     - include_role: { name: OB-Live.nino, tasks_from: pull } # then pull 
       vars:
-        idName: "pets" 
+        id_name: "pets"

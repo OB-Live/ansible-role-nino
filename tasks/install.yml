@@ -19,7 +19,7 @@
     dest: /usr/local/share/ca-certificates/cgi_zscaler_ca_root.crt
     mode: '0644'
   notify: Update CA certificates
-  ignore_errors: true
+  ignore_errors: true # noqa: ignore-errors
 
 - name: Check current Lino version
   ansible.builtin.command: lino --version
@@ -46,7 +46,7 @@
         path: "{{ workspace }}"
         state: directory
         mode: '0755'
-    
+
     - name: "Create {{ fifos_dir }} folder with 777 permissions"
       ansible.builtin.file:
         path: "{{ fifos_dir }}"
@@ -54,13 +54,13 @@
         mode: '0777'
 
     - block: 
-      - name: Download LINO components to cache (idempotent)
+      - name: Download LINO components to cache
         become: true
         ansible.builtin.get_url:
           url: "{{ item.url }}"
           dest: "/tmp/{{ item.url | basename }}"
           mode: '0644'
-          force: no                # don't re-download if file already present
+          force: false                # don't re-download if file already present
           validate_certs: no
         loop: "{{ lino_components }}"
         loop_control:
@@ -82,24 +82,24 @@
         loop_control:
           label: "{{ item.name }}"
 
-
-    - name: Add {{ install_dir }} to user PATH in .bashrc
+    - name: Add install directory to user PATH in .bashrc
       become: false
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: ~/.bashrc
         line: 'export PATH="$PATH:{{ install_dir }}"'
         state: present
         insertafter: EOF
 
-    # - name: Add {{ install_dir }} to user PATH in /root/.bashrc
+    # - name: Add install directory to user PATH in /root/.bashrc
     #   become: false
-    #   lineinfile:
+    #   ansible.builtin.lineinfile:
     #     path: /root/.bashrc
     #     line: 'export PATH="$PATH:{{ install_dir }}"'
     #     state: present
     #     insertafter: EOF
 
     - name: Reload .bashrc to update PATH for the current session
-      shell: source ~/.bashrc
+      ansible.builtin.shell: source ~/.bashrc
       args:
         executable: /bin/bash
+      changed_when: false
